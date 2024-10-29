@@ -49,6 +49,8 @@ public:
      */
     bool operator==(const Nacionalitat &nacio) const;
 
+    bool operator>(const Nacionalitat &nacio) const;
+
 private:
     int _id; ///< Codi identificador del país.
     string _nom; ///< Nom del país de la nacionalitat.

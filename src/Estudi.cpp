@@ -20,3 +20,7 @@ string Estudi::obtenirNom() const {
 bool Estudi::operator==(const Estudi &estudi) const {
     return _id == estudi._id;
 }
+
+bool Estudi::operator>(const Estudi &estudi) const {
+    return _id > estudi._id;
+}
