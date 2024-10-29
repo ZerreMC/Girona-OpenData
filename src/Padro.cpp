@@ -11,44 +11,15 @@ int Padro::llegirDades(const string &path) {
 
     if (!f.fail()) {
         getline(f, linia); // Salta la primera linia
-
         while (getline(f, linia)) {
             vector<string> items = tokens(linia, ';', false);
-            if (items.size() < 13) {
+            if (items.size() >= 13) {
                 cerr << "Dades insuficients a la linea" << endl;
                 continue;
             }
 
-            // Guardar les dades rellevants
-            int any = stringToInt(items[0]); // Columna 0: any
-            int districte = stringToInt(items[1]); // Columna 1: districte
-            int seccio = stringToInt(items[2]); // Columna 2: seccio
-            int codiNivellEstudis = stringToInt(items[4]); // Columna 4: codi_nivell_estudis
-            string nivellEstudis = items[5]; // Columna 5: nivell_estudis
-            int anyNaixement = stringToInt(items[6]); // Columna 6: data_naixement
-            int codiNacionalitat = stringToInt(items[11]); // Columna 11: codi_nacionalitat
-            string nomNacionalitat = items[12]; // Columna 12: nacionalitat
+            if (processarLinia(items)) {
 
-            // Comprova si les dades son correctes abans d'afegir
-            if (any != -1 and seccio != -1 and districte != -1 and codiNivellEstudis != -1 and anyNaixement != -1 and
-                codiNacionalitat != -1) {
-                // Comprova rang del districte
-                if (districte <= 0 or districte > MIDA) {
-                    cerr << "Districte fora de rang" << endl;
-                    continue;
-                }
-
-                // Afegeix les dades a l'any corresponent
-                if (existeixAny(any)) {
-                    _districtes[any][districte - 1].afegir(seccio, codiNivellEstudis, nivellEstudis, anyNaixement,
-                                                           codiNacionalitat, nomNacionalitat);
-                } else {
-                    // Si l'any no existeix es crea una entrada
-                    vector<Districte> nousDistrictes(MIDA); // Es crea el vector de Districtes amb la MIDA fixa
-                    nousDistrictes[districte - 1].afegir(seccio, codiNivellEstudis, nivellEstudis, anyNaixement,
-                                                         codiNacionalitat, nomNacionalitat);
-                    _districtes[any] = nousDistrictes;
-                }
                 llegides++;
             } else {
                 cerr << "Dades incorrectes en la línea, no serán emmagatzemades" << endl;
@@ -68,10 +39,22 @@ bool Padro::existeixAny(int any) const {
 map<int, long> Padro::obtenirNumHabitantsPerAny() const {
     map<int, long> habitants;
 
-
     return habitants;
 }
 
+vector<long> Padro::obtenirNumHabitantsPerDistricte(int any) const {
+    vector<long> habitants;
+    if(existeixAny(any)) {
+        for(int i=0; i<_districtes[any].size(); i++) {
+
+        }
+    } else cerr << "L'any no existeix a Padro" << endl;
+    return habitants;
+}
+
+map<int, long> Padro::obtenirNumHabitantsPerSeccio(int any, int districte) const {
+
+}
 
 int Padro::stringToInt(const string &s) {
     if (s.empty()) return -1;
@@ -80,3 +63,38 @@ int Padro::stringToInt(const string &s) {
     }
     return stoi(s);
 }
+
+bool Padro::processarLinia(vector<string> &items) {
+    // Guardar les dades rellevants
+    int any = stringToInt(items[0]); // Columna 0: any
+    int districte = stringToInt(items[1]); // Columna 1: districte
+    int seccio = stringToInt(items[2]); // Columna 2: seccio
+    int codiNivellEstudis = stringToInt(items[4]); // Columna 4: codi_nivell_estudis
+    string nivellEstudis = items[5]; // Columna 5: nivell_estudis
+    int anyNaixement = stringToInt(items[6]); // Columna 6: data_naixement
+    int codiNacionalitat = stringToInt(items[11]); // Columna 11: codi_nacionalitat
+    string nomNacionalitat = items[12]; // Columna 12: nacionalitat
+
+    if (dadesCorrectes(any, districte, seccio, codiNivellEstudis, anyNaixement, codiNacionalitat)) {
+        afegirDades(any, districte, seccio, codiNivellEstudis, nivellEstudis, anyNaixement, codiNacionalitat, nomNacionalitat);
+        return true;
+    }
+    return false;
+}
+
+bool Padro::dadesCorrectes(int any, int districte, int seccio, int codiNivellEstudis, int anyNaixement, int codiNacionalitat) const {
+    return any != -1 && seccio != -1 && districte != -1 && codiNivellEstudis != -1 && anyNaixement != -1 && codiNacionalitat != -1 &&
+               districte > 0 && districte <= MIDA;
+}
+
+void Padro::afegirDades(int any, int districte, int seccio, int codiNivellEstudis, const string& nivellEstudis, int anyNaixement, int codiNacionalitat, const string& nomNacionalitat) {
+    if (existeixAny(any)) {
+        _districtes[any][districte - 1].afegir(seccio, codiNivellEstudis, nivellEstudis, anyNaixement, codiNacionalitat, nomNacionalitat);
+    } else {
+        vector<Districte> nousDistrictes(MIDA);
+        nousDistrictes[districte - 1].afegir(seccio, codiNivellEstudis, nivellEstudis, anyNaixement, codiNacionalitat, nomNacionalitat);
+        _districtes[any] = nousDistrictes;
+    }
+}
+
+

@@ -10,6 +10,7 @@
 #include <set>
 #include <map>
 #include <iostream>
+#include <unordered_map>
 
 #include "Estudi.h"
 #include "Nacionalitat.h"
@@ -89,21 +90,10 @@ public:
      */
     long comptaEdatNacionalitat(int anyNaixement, int codiNacionalitat) const;
 
-    /**
-     * @brief Obté un mapa amb el nombre d'habitants per secció.
-     *
-     * @return Un mapa on la clau és el número de la secció i el valor és el nombre d'habitants.
-     * @pre  --
-     * @post Retorna un mapa amb el nombre d'habitants per secció dins del Districte.
-     */
-    map<int, long> obtenirHabitantsPerSeccio() const;
-
 private:
     list<Persona> _Persones; ///< Llista de persones que resideixen al districte.
     set<Estudi> _Estudis; ///< Conjunt d'estudis dels habitants del districte per evitar duplicats.
     set<Nacionalitat> _Nacionalitats; ///< Conjunt de nacionalitats dels habitants del districte per evitar duplicats.
-    map<int, long> _habitantsSeccio;
-    ///< Mapa amb el nombre d'habitants per secció; la clau és la secció i el valor és el nombre d'habitants.
 
     static const int ANY_ACTUAL = 2024;
     ///< Constant que representa l'any actual per a càlculs relacionats amb l'edat dels habitants.

@@ -16,7 +16,6 @@ void Districte::afegir(int seccio, int codiNivellEstudis, const string &nivellEs
     Nacionalitat nacionalitat(codiNivellEstudis, nivellEstudis);
     _Nacionalitats.insert(nacionalitat);
 
-    _habitantsSeccio[seccio]++;
 }
 
 long Districte::obtenirNumHabitants() const {

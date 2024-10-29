@@ -162,22 +162,71 @@ public:
     list<string> estudisEdat(int any, int districte, int edat, int codiNacionalitat) const;
 
 private:
-    map<int, vector<Districte> > _districtes;
-    ///< Map amb clau com any i un vector de districtes per emmagatzemar les dades per any.
+    map<int, vector<Districte>> _districtes;
+    ///< Estructura que associa cada any amb un vector de districtes, emmagatzemant les dades per any i districte.
+
+    map<int, long> _habitantsPerAny;
+    ///< Mapa que manté el nombre total d'habitants per cada any, permetent accés ràpid al recompte anual.
 
     /**
-     * @brief Converteix una cadena de text a enter.
+     * @brief Converteix una cadena de text a un enter si és possible.
      *
      * @param s Cadena de text a convertir.
-     * @return Enter resultant de la conversió o -1 si la cadena no és vàlida.
+     * @return Retorna l'enter resultant de la conversió o -1 si la cadena no és vàlida.
+     * @pre --
+     * @post Retorna un enter si la conversió és possible; en cas contrari, retorna -1.
      */
     int stringToInt(const string &s);
+
+    /**
+     * @brief Processa una línia del fitxer de dades.
+     *
+     * @param linia Vector de cadenes que representa una línia del fitxer desglossada en camps.
+     * @return `true` si la línia s'ha processat correctament, `false` si conté errors o és incompleta.
+     * @pre --
+     * @post La línia s'ha processat i desglossat en camps; si té errors o és incompleta, retorna `false`.
+     */
+    bool processarLinia(vector<string> &linia);
+
+    /**
+     * @brief Verifica la correcció de les dades extretes d'una línia.
+     *
+     * @param any Any de les dades.
+     * @param districte Districte de les dades.
+     * @param seccio Secció de les dades.
+     * @param codiNivellEstudis Codi del nivell d'estudis.
+     * @param anyNaixement Any de naixement.
+     * @param codiNacionalitat Codi de la nacionalitat.
+     * @return `true` si totes les dades són vàlides, `false` en cas contrari.
+     * @pre --
+     * @post Retorna `true` si totes les dades compleixen els criteris de validació, `false` en cas contrari.
+     */
+    bool dadesCorrectes(int any, int districte, int seccio, int codiNivellEstudis, int anyNaixement, int codiNacionalitat) const;
+
+    /**
+     * @brief Afegeix les dades al mapa `_districtes`.
+     *
+     * @param any Any de les dades.
+     * @param districte Districte de les dades.
+     * @param seccio Secció de les dades.
+     * @param codiNivellEstudis Codi del nivell d'estudis.
+     * @param nivellEstudis Nom del nivell d'estudis.
+     * @param anyNaixement Any de naixement.
+     * @param codiNacionalitat Codi de la nacionalitat.
+     * @param nomNacionalitat Nom de la nacionalitat.
+     * @pre Les dades han de ser correctes i el districte ha de ser dins del rang de `MIDA`.
+     * @post Les dades s'afegeixen al mapa `_districtes` en la posició corresponent a l'any i districte indicats.
+     */
+    void afegirDades(int any, int districte, int seccio, int codiNivellEstudis, const string &nivellEstudis,
+                     int anyNaixement, int codiNacionalitat, const string &nomNacionalitat);
 
     const vector<string> DISTRICTES = {
         "Carme, Vila-roja", "Eixample, Montilivi", "Santa Eugenia, Mas Xirgu",
         "Casc Antic", "Montjuic, Pont major", "Sant Ponc, Domeny, Taiala"
-    }; ///< Vector constant amb els noms dels districtes que no es modificaran.
-    const int MIDA = 6; ///< Mida constant del vector DISTRICTES, que representa el nombre total de districtes.
+    }; ///< Vector constant que conté els noms dels districtes, sense possibilitat de modificació.
+
+    const int MIDA = 6; ///< Constant que defineix la mida del vector `DISTRICTES`, indicant el nombre total de districtes.
 };
+
 
 #endif // PADRO_H
