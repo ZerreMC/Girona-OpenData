@@ -21,11 +21,12 @@ class Districte
 {
 public:
     Districte();
-    void afegir(int codiNivellEstudis, const string &nivellEstudis, int anyNaixement, int codiNacionalitat, const string &nomNacionalitat);
+    void afegir(int seccio, int codiNivellEstudis, const string &nivellEstudis, int anyNaixement, int codiNacionalitat, const string &nomNacionalitat);
     long obtenirNumHabitants() const;
     double obtenirEdatMitjana() const;
-    list<string> resumEstudis() const;
-    list<string> resumNacionalitats() const;
+    set<string> resumEstudis() const;
+    set<string> resumNacionalitats() const;
+    map<int, long> obtenirHabitantsPerSeccio() const;
     long comptaEdatNacionalitat(int anyNaixement, int codiNacionalitat) const;
 
 private:

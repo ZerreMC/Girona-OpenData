@@ -17,11 +17,12 @@ int Padro::llegirDades(const string &path) {
 
         while (getline(f, linia)) {
             vector<string> items = tokens(linia, ';', false);
-            if (items.size() < 7) {
+            if (items.size() < 13) {
                 cerr << "Dades insuficients a la linea" << endl;
                 continue;
             }
-            // Extraer los valores relevantes
+
+            // Guardar les dades rellevants
             int any = stringToInt(items[0]);  // Columna 0: any
             int districte = stringToInt(items[1]);  // Columna 1: districte
             int seccio = stringToInt(items[2]); // Columna 2: seccio
@@ -32,14 +33,21 @@ int Padro::llegirDades(const string &path) {
             string nomNacionalitat = items[12];  // Columna 12: nacionalitat
 
             // Comprova si les dades son correctes abans d'afegir
-            if (any != -1 && districte != -1 && codiNivellEstudis != -1 && anyNaixement != -1 && codiNacionalitat != -1) {
+            if (any != -1 and seccio != -1 and districte != -1 and codiNivellEstudis != -1 and anyNaixement != -1 and codiNacionalitat != -1) {
+
+                // Comprova rang del districte
+                if (districte <= 0 or districte > MIDA) {
+                    cerr << "Districte fora de rang" << endl;
+                    continue;
+                }
+
                 // Afegeix les dades a l'any corresponent
                 if (existeixAny(any)) {
-                    _districtes[any][districte - 1].afegir(codiNivellEstudis, nivellEstudis, anyNaixement, codiNacionalitat, nomNacionalitat);
+                    _districtes[any][districte - 1].afegir(seccio, codiNivellEstudis, nivellEstudis, anyNaixement, codiNacionalitat, nomNacionalitat);
                 } else {
                     // Si l'any no existeix es crea una entrada
                     vector<Districte> nousDistrictes(MIDA); // Es crea el vector de Districtes amb la MIDA fixa
-                    nousDistrictes[districte - 1].afegir(codiNivellEstudis, nivellEstudis, anyNaixement, codiNacionalitat, nomNacionalitat);
+                    nousDistrictes[districte - 1].afegir(seccio, codiNivellEstudis, nivellEstudis, anyNaixement, codiNacionalitat, nomNacionalitat);
                     _districtes[any] = nousDistrictes;
                 }
                 llegides++;
