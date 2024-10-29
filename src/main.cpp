@@ -72,12 +72,28 @@ void nHabitantsUnAnyUnDistricted(const Padro &padro) {
     cout << "*******************************************************" << endl;
     cout << "* 05: Obtenir nombre d'habitants d'un any i districte *" << endl;
     cout << "*******************************************************" << endl;
+
     int any, districte;
+    cout << "Any: ";
+    cin >> any;
+    cout << "Districte ";
+    cin >> districte;
 
     map<int, long> habitants = padro.obtenirNumHabitantsPerSeccio(any, districte);
-    map<int, long>::iterator it = habitants.begin();
-    while (it != habitants.end()) {
-        it++;
+
+    if (!habitants.empty()) {
+        cout << "Any:" << setw(8) << any << "  Districte:" << districte << endl;
+
+        long totalHabitants = 0;
+        for (const auto &entry : habitants) {
+            cout << "Seccio " << entry.first
+                 << setw(10) << "habitants:" << setw(8) << entry.second << endl;
+            totalHabitants += entry.second;
+        }
+
+        cout << "TOTAL :" << setw(5) << totalHabitants << endl;
+    } else {
+        cout << "No hi ha dades per l'any i districte especificats." << endl;
     }
 }
 

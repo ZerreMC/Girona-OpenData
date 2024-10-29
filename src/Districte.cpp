@@ -16,6 +16,7 @@ void Districte::afegir(int seccio, int codiNivellEstudis, const string &nivellEs
     Nacionalitat nacionalitat(codiNivellEstudis, nivellEstudis);
     _Nacionalitats.insert(nacionalitat);
 
+    _habitantsPerSeccio[seccio]++;
 }
 
 long Districte::obtenirNumHabitants() const {
@@ -24,4 +25,8 @@ long Districte::obtenirNumHabitants() const {
 
 double Districte::obtenirEdatMitjana() const {
     return obtenirNumHabitants() / _Persones.size();
+}
+
+map<int, long> Districte::obtenirHabitantsPerSeccio() const {
+    return map<int, long>(_habitantsPerSeccio.begin(), _habitantsPerSeccio.end());
 }

@@ -19,7 +19,6 @@ int Padro::llegirDades(const string &path) {
             }
 
             if (processarLinia(items)) {
-
                 llegides++;
             } else {
                 cerr << "Dades incorrectes en la línea, no serán emmagatzemades" << endl;
@@ -37,24 +36,40 @@ bool Padro::existeixAny(int any) const {
 }
 
 map<int, long> Padro::obtenirNumHabitantsPerAny() const {
-    map<int, long> habitants;
-
-    return habitants;
+    return _habitantsPerAny;
 }
 
 vector<long> Padro::obtenirNumHabitantsPerDistricte(int any) const {
-    vector<long> habitants;
+    vector<long> habitants(MIDA);
     if(existeixAny(any)) {
-        for(int i=0; i<_districtes[any].size(); i++) {
-
+        const vector<Districte>& districtes = _districtes.at(any);  // Obté el vector de districtes d'un any especific
+        for (int i = 0; i < MIDA; ++i) {
+            habitants[i] = districtes[i].obtenirNumHabitants();
         }
     } else cerr << "L'any no existeix a Padro" << endl;
     return habitants;
 }
 
 map<int, long> Padro::obtenirNumHabitantsPerSeccio(int any, int districte) const {
+    map<int, long> habitantsPerSec;
 
+    // Comprova si els paràmetres son correctes
+    if (existeixAny(any) and districte > 0 and districte <= MIDA) {
+        const vector<Districte>& districtesAny = _districtes.find(any)->second;
+        if (districte - 1 < districtesAny.size()) {
+            habitantsPerSec = districtesAny[districte - 1].obtenirHabitantsPerSeccio();
+        } else {
+            cerr << "Districte fora de rang per l'any especificat." << endl;
+        }
+    } else {
+        cerr << "Any o districte no existent." << endl;
+    }
+    return habitantsPerSec;
 }
+
+
+
+
 
 int Padro::stringToInt(const string &s) {
     if (s.empty()) return -1;
@@ -95,6 +110,5 @@ void Padro::afegirDades(int any, int districte, int seccio, int codiNivellEstudi
         nousDistrictes[districte - 1].afegir(seccio, codiNivellEstudis, nivellEstudis, anyNaixement, codiNacionalitat, nomNacionalitat);
         _districtes[any] = nousDistrictes;
     }
+    _habitantsPerAny[any]++;
 }
-
-
