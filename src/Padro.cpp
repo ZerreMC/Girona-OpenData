@@ -4,9 +4,6 @@
 
 #include "Padro.h"
 
-Padro::Padro() {
-}
-
 int Padro::llegirDades(const string &path) {
     int llegides = 0;
     ifstream f(path);
@@ -23,18 +20,18 @@ int Padro::llegirDades(const string &path) {
             }
 
             // Guardar les dades rellevants
-            int any = stringToInt(items[0]);  // Columna 0: any
-            int districte = stringToInt(items[1]);  // Columna 1: districte
+            int any = stringToInt(items[0]); // Columna 0: any
+            int districte = stringToInt(items[1]); // Columna 1: districte
             int seccio = stringToInt(items[2]); // Columna 2: seccio
-            int codiNivellEstudis = stringToInt(items[4]);  // Columna 4: codi_nivell_estudis
-            string nivellEstudis = items[5];  // Columna 5: nivell_estudis
-            int anyNaixement = stringToInt(items[6]);  // Columna 6: data_naixement
-            int codiNacionalitat = stringToInt(items[11]);  // Columna 11: codi_nacionalitat
-            string nomNacionalitat = items[12];  // Columna 12: nacionalitat
+            int codiNivellEstudis = stringToInt(items[4]); // Columna 4: codi_nivell_estudis
+            string nivellEstudis = items[5]; // Columna 5: nivell_estudis
+            int anyNaixement = stringToInt(items[6]); // Columna 6: data_naixement
+            int codiNacionalitat = stringToInt(items[11]); // Columna 11: codi_nacionalitat
+            string nomNacionalitat = items[12]; // Columna 12: nacionalitat
 
             // Comprova si les dades son correctes abans d'afegir
-            if (any != -1 and seccio != -1 and districte != -1 and codiNivellEstudis != -1 and anyNaixement != -1 and codiNacionalitat != -1) {
-
+            if (any != -1 and seccio != -1 and districte != -1 and codiNivellEstudis != -1 and anyNaixement != -1 and
+                codiNacionalitat != -1) {
                 // Comprova rang del districte
                 if (districte <= 0 or districte > MIDA) {
                     cerr << "Districte fora de rang" << endl;
@@ -43,11 +40,13 @@ int Padro::llegirDades(const string &path) {
 
                 // Afegeix les dades a l'any corresponent
                 if (existeixAny(any)) {
-                    _districtes[any][districte - 1].afegir(seccio, codiNivellEstudis, nivellEstudis, anyNaixement, codiNacionalitat, nomNacionalitat);
+                    _districtes[any][districte - 1].afegir(seccio, codiNivellEstudis, nivellEstudis, anyNaixement,
+                                                           codiNacionalitat, nomNacionalitat);
                 } else {
                     // Si l'any no existeix es crea una entrada
                     vector<Districte> nousDistrictes(MIDA); // Es crea el vector de Districtes amb la MIDA fixa
-                    nousDistrictes[districte - 1].afegir(seccio, codiNivellEstudis, nivellEstudis, anyNaixement, codiNacionalitat, nomNacionalitat);
+                    nousDistrictes[districte - 1].afegir(seccio, codiNivellEstudis, nivellEstudis, anyNaixement,
+                                                         codiNacionalitat, nomNacionalitat);
                     _districtes[any] = nousDistrictes;
                 }
                 llegides++;
@@ -57,7 +56,7 @@ int Padro::llegirDades(const string &path) {
         }
         f.close();
     } else {
-        cerr << "No s'ha pogut obrir l'arxiu ("<< path << ")." << endl;
+        cerr << "No s'ha pogut obrir l'arxiu (" << path << ")." << endl;
     }
     return llegides;
 }
@@ -74,9 +73,9 @@ map<int, long> Padro::obtenirNumHabitantsPerAny() const {
 }
 
 
-int Padro::stringToInt(const string& s) {
+int Padro::stringToInt(const string &s) {
     if (s.empty()) return -1;
-    for (char c : s) {
+    for (char c: s) {
         if (c < '0' || c > '9') return -1;
     }
     return stoi(s);

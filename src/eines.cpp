@@ -17,8 +17,9 @@ vector<string> tokens(const string &s, char separador, bool cometes) {
 string token(const string &s, char separador, bool cometes, long &primer, long &ultim) {
     string t;
 
-    if (!cometes || s[primer] != '"') { // No volem tenir en compte les " o no comença per "
-        while(s[primer]==' ' && primer<s.length()) // ens  mengem els espais inicials si no hi ha cometes
+    if (!cometes || s[primer] != '"') {
+        // No volem tenir en compte les " o no comença per "
+        while (s[primer] == ' ' && primer < s.length()) // ens  mengem els espais inicials si no hi ha cometes
             primer++;
         ultim = s.find(separador, primer);
         if (ultim == string::npos)
@@ -27,13 +28,14 @@ string token(const string &s, char separador, bool cometes, long &primer, long &
             t = s.substr(primer, ultim - primer);
             primer = ultim + 1; // ens mengem la ,
         }
-    } else { // comença per " i les volem tenir en compte com delimitadors
+    } else {
+        // comença per " i les volem tenir en compte com delimitadors
         primer++;
         ultim = s.find('"', primer);
-        while (s.length()>ultim+1 && s[ultim+1]=='"') {
-            ultim = s.find('"', ultim+2); //saltem "" dobles seguides
+        while (s.length() > ultim + 1 && s[ultim + 1] == '"') {
+            ultim = s.find('"', ultim + 2); //saltem "" dobles seguides
         }
-        
+
         if (ultim == string::npos)
             throw ("cometes no tancades");
         else {

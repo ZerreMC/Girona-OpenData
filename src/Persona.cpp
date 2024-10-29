@@ -4,7 +4,7 @@
 #include "Persona.h"
 
 Persona::Persona(int codiNivellEstudis, const string &nivellEstudis, int anyNaixement, int codiPaisNaixement,
-    const string &paisNaixement) {
+                 const string &paisNaixement) {
     _codiNivellEstudis = codiNivellEstudis;
     _nivellEstudis = nivellEstudis;
     _anyNaixement = anyNaixement;

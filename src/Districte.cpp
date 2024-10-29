@@ -4,9 +4,9 @@
 
 #include "Districte.h"
 
-void Districte::afegir(int seccio, int codiNivellEstudis, const string &nivellEstudis, int anyNaixement, int codiNacionalitat,
-    const string &nomNacionalitat) {
-
+void Districte::afegir(int seccio, int codiNivellEstudis, const string &nivellEstudis, int anyNaixement,
+                       int codiNacionalitat,
+                       const string &nomNacionalitat) {
     Persona persona(codiNivellEstudis, nivellEstudis, anyNaixement, codiNacionalitat, nomNacionalitat);
     _Persones.push_back(persona);
 
