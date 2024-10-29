@@ -15,10 +15,10 @@
 
 using namespace std;
 
-typedef vector<int> ResumEstudis;
-typedef vector<int> ResumEdats;
-typedef vector<int> ResumNivellEstudis;
-typedef vector<int> ResumNacionalitats;
+typedef map<int, set<Estudi, greater<Estudi>>> ResumEstudis;
+typedef map<int, vector<double>> ResumEdats;
+typedef map<int, vector<double>> ResumNivellEstudis;
+typedef map<int, map<int, long>> ResumNacionalitats;
 
 class Padro {
 public:
@@ -162,11 +162,16 @@ public:
     list<string> estudisEdat(int any, int districte, int edat, int codiNacionalitat) const;
 
 private:
-    map<int, vector<Districte>> _districtes;
+    map<int, vector<Districte> > _districtes;
     ///< Estructura que associa cada any amb un vector de districtes, emmagatzemant les dades per any i districte.
 
     map<int, long> _habitantsPerAny;
     ///< Mapa que manté el nombre total d'habitants per cada any, permetent accés ràpid al recompte anual.
+
+    ResumEstudis _estudis;
+    ResumEdats _edats;
+    ResumNivellEstudis _nivellEstudis;
+    ResumNacionalitats _nacionalitats;
 
     /**
      * @brief Converteix una cadena de text a un enter si és possible.
@@ -201,7 +206,8 @@ private:
      * @pre --
      * @post Retorna `true` si totes les dades compleixen els criteris de validació, `false` en cas contrari.
      */
-    bool dadesCorrectes(int any, int districte, int seccio, int codiNivellEstudis, int anyNaixement, int codiNacionalitat) const;
+    bool dadesCorrectes(int any, int districte, int seccio, int codiNivellEstudis, int anyNaixement,
+                        int codiNacionalitat) const;
 
     /**
      * @brief Afegeix les dades al mapa `_districtes`.
@@ -225,7 +231,8 @@ private:
         "Casc Antic", "Montjuic, Pont major", "Sant Ponc, Domeny, Taiala"
     }; ///< Vector constant que conté els noms dels districtes, sense possibilitat de modificació.
 
-    const int MIDA = 6; ///< Constant que defineix la mida del vector `DISTRICTES`, indicant el nombre total de districtes.
+    const int MIDA = 6;
+    ///< Constant que defineix la mida del vector `DISTRICTES`, indicant el nombre total de districtes.
 };
 
 

@@ -97,11 +97,29 @@ void nHabitantsUnAnyUnDistricted(const Padro &padro) {
     }
 }
 
-void resumEstudis(const Padro &padro) {
+void mostrarResumEstudis(const Padro &padro) {
     cout << "*************************" << endl;
     cout << "* 06: Resum per estudis *" << endl;
     cout << "*************************" << endl;
+
+    ResumEstudis resum = padro.resumEstudis();
+
+    ResumEstudis::const_iterator anyEstudis = resum.begin();
+    // Iterar sobre els anys
+    while (anyEstudis != resum.end()) {
+        int any = anyEstudis->first;
+        const set<Estudi>& estudis = anyEstudis->second;
+        cout << any << "  Estudis:";
+
+        // Iterar sobre el set de estudis
+        for (set<Estudi>::const_iterator it = estudis.begin(); it != estudis.end(); it++) {
+            cout << (it == estudis.begin() ? " " : " -- ") << it->obtenirNom();
+        }
+        cout << endl;
+        anyEstudis++;
+    }
 }
+
 
 void nEstudisDistricted(const Padro &padro) {
     cout << "**************************************" << endl;

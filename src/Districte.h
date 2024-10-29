@@ -17,6 +17,8 @@
 #include "Persona.h"
 
 using namespace std;
+static const int ANY_ACTUAL = 2024;
+///< Constant que representa l'any actual per a càlculs relacionats amb l'edat dels habitants.
 
 class Districte {
 public:
@@ -94,12 +96,9 @@ public:
 
 private:
     list<Persona> _Persones; ///< Llista de persones que resideixen al districte.
-    set<Estudi> _Estudis; ///< Conjunt d'estudis dels habitants del districte per evitar duplicats.
-    set<Nacionalitat> _Nacionalitats; ///< Conjunt de nacionalitats dels habitants del districte per evitar duplicats.
+    set<Estudi, greater<Estudi>> _Estudis; ///< Conjunt d'estudis dels habitants del districte per evitar duplicats.
+    set<Nacionalitat, greater<Nacionalitat>> _Nacionalitats; ///< Conjunt de nacionalitats dels habitants del districte per evitar duplicats.
     unordered_map<int, long> _habitantsPerSeccio;
-
-    static const int ANY_ACTUAL = 2024;
-    ///< Constant que representa l'any actual per a càlculs relacionats amb l'edat dels habitants.
 };
 
 #endif // DISTRICTE_H
