@@ -110,7 +110,7 @@ void mostrarResumEstudis(const Padro &padro) {
         const set<string, greater<string> > &estudis = anyEstudis->second;
         cout << any << "  Estudis:";
 
-        // Iterar sobre el set de estudios
+        // Itera sobre el set d'estudis
         set<string, greater<string> >::const_iterator it = estudis.begin();
 
         while (it != estudis.end()) {
