@@ -84,9 +84,9 @@ void nHabitantsUnAnyUnDistricted(const Padro &padro) {
         cout << "Any:" << setw(8) << any << "  Districte:" << districte << endl;
 
         long totalHabitants = 0;
-        for (const auto &entry : habitants) {
+        for (const auto &entry: habitants) {
             cout << "Seccio " << entry.first
-                 << setw(10) << "habitants:" << setw(8) << entry.second << endl;
+                    << setw(10) << "habitants:" << setw(8) << entry.second << endl;
             totalHabitants += entry.second;
         }
 
@@ -104,15 +104,18 @@ void mostrarResumEstudis(const Padro &padro) {
     ResumEstudis resum = padro.resumEstudis();
 
     ResumEstudis::const_iterator anyEstudis = resum.begin();
-    // Iterar sobre els anys
     while (anyEstudis != resum.end()) {
         int any = anyEstudis->first;
-        const set<Estudi, greater<Estudi>>& estudis = anyEstudis->second;
+
+        const set<string, greater<string> > &estudis = anyEstudis->second;
         cout << any << "  Estudis:";
 
-        // Iterar sobre el set de estudis
-        for (set<Estudi>::const_iterator it = estudis.begin(); it != estudis.end(); it++) {
-            cout << (it == estudis.begin() ? " " : " -- ") << it->obtenirNom();
+        // Iterar sobre el set de estudios
+        set<string, greater<string> >::const_iterator it = estudis.begin();
+
+        while (it != estudis.end()) {
+            cout << (it == estudis.begin() ? " " : " -- ") << *it;
+            it++;
         }
         cout << endl;
         anyEstudis++;

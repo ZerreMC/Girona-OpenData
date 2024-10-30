@@ -4,6 +4,10 @@
 
 #include "Padro.h"
 
+Padro::Padro() {
+
+}
+
 int Padro::llegirDades(const string &path) {
     int llegides = 0;
     ifstream f(path);
@@ -13,7 +17,7 @@ int Padro::llegirDades(const string &path) {
         getline(f, linia); // Salta la primera linia
         while (getline(f, linia)) {
             vector<string> items = tokens(linia, ';', false);
-            if (items.size() >= 13) {
+            if (items.size() < 13) {
                 cerr << "Dades insuficients a la linea" << endl;
                 continue;
             }
@@ -43,7 +47,7 @@ vector<long> Padro::obtenirNumHabitantsPerDistricte(int any) const {
     vector<long> habitants(MIDA);
     if(existeixAny(any)) {
         const vector<Districte>& districtes = _districtes.at(any);  // Obté el vector de districtes d'un any especific
-        for (int i = 0; i < MIDA; ++i) {
+        for (int i = 1; i < MIDA; i++) {
             habitants[i] = districtes[i].obtenirNumHabitants();
         }
     } else cerr << "L'any no existeix a Padro" << endl;
@@ -56,8 +60,8 @@ map<int, long> Padro::obtenirNumHabitantsPerSeccio(int any, int districte) const
     // Comprova si els paràmetres son correctes
     if (existeixAny(any) and districte > 0 and districte <= MIDA) {
         const vector<Districte>& districtesAny = _districtes.find(any)->second;
-        if (districte - 1 < districtesAny.size()) {
-            habitantsPerSec = districtesAny[districte - 1].obtenirHabitantsPerSeccio();
+        if (districte < districtesAny.size()) {
+            habitantsPerSec = districtesAny[districte].obtenirHabitantsPerSeccio();
         } else {
             cerr << "Districte fora de rang per l'any especificat." << endl;
         }
@@ -99,9 +103,10 @@ bool Padro::processarLinia(vector<string> &items) {
 }
 
 bool Padro::dadesCorrectes(int any, int districte, int seccio, int codiNivellEstudis, int anyNaixement, int codiNacionalitat) const {
-    return any != -1 && seccio != -1 && districte != -1 && codiNivellEstudis != -1 && anyNaixement != -1 && codiNacionalitat != -1 &&
-               districte > 0 && districte <= MIDA;
+    return any != -1 and seccio != -1 and districte != -1 and codiNivellEstudis != -1 and anyNaixement != -1 and codiNacionalitat != -1 and
+           districte > 0 and districte <= MIDA;
 }
+
 
 void Padro::afegirDades(int any, int districte, int seccio, int codiNivellEstudis, const string& nivellEstudis, int anyNaixement, int codiNacionalitat, const string& nomNacionalitat) {
     if (existeixAny(any)) {
@@ -115,15 +120,14 @@ void Padro::afegirDades(int any, int districte, int seccio, int codiNivellEstudi
     _habitantsPerAny[any]++;
 
     // Actualiza _estudis
-    _estudis[any].insert(Estudi(codiNivellEstudis, nivellEstudis));
+    _estudis[any].insert(nivellEstudis);
 
     // Calcula edat i actualiza _edats
     int edat = ANY_ACTUAL - anyNaixement;
-    _edats[any].resize(MIDA); // Asegura que el vector té MIDA districtes
-    _edats[any][districte - 1] += edat;
+    _edats[any].resize(MIDA);
+    _edats[any][districte] += edat;
 
     // Actualiza _nivellEstudis
     _nivellEstudis[any].resize(MIDA); // Asegura que el vector té MIDA districtes
-    _nivellEstudis[any][districte - 1] += codiNivellEstudis;
-    _habitantsPerAny[any]++;
+    _nivellEstudis[any][districte] += codiNivellEstudis;
 }

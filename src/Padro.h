@@ -15,13 +15,16 @@
 
 using namespace std;
 
-typedef map<int, set<Estudi, greater<Estudi>>> ResumEstudis;
+typedef map<int, set<string, greater<string>>> ResumEstudis;
 typedef map<int, vector<double>> ResumEdats;
 typedef map<int, vector<double>> ResumNivellEstudis;
 typedef map<int, map<int, long>> ResumNacionalitats;
 
 class Padro {
 public:
+
+    Padro();
+
     /**
      * @brief Llegeix les dades del fitxer CSV de la ruta especificada i les emmagatzema.
      *
@@ -226,12 +229,12 @@ private:
     void afegirDades(int any, int districte, int seccio, int codiNivellEstudis, const string &nivellEstudis,
                      int anyNaixement, int codiNacionalitat, const string &nomNacionalitat);
 
-    const vector<string> DISTRICTES = {
+    const vector<string> DISTRICTES = {"",
         "Carme, Vila-roja", "Eixample, Montilivi", "Santa Eugenia, Mas Xirgu",
         "Casc Antic", "Montjuic, Pont major", "Sant Ponc, Domeny, Taiala"
     }; ///< Vector constant que conté els noms dels districtes, sense possibilitat de modificació.
 
-    const int MIDA = 6;
+    const int MIDA = 7;
     ///< Constant que defineix la mida del vector `DISTRICTES`, indicant el nombre total de districtes.
 };
 
