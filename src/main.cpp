@@ -2,7 +2,6 @@
 // Usuari u1980984
 // Sessio 2 Practica p1
 
-#include <any>
 #include <fstream>
 #include <iomanip>
 #include <iostream>
@@ -108,7 +107,7 @@ void mostrarResumEstudis(const Padro &padro) {
     // Iterar sobre els anys
     while (anyEstudis != resum.end()) {
         int any = anyEstudis->first;
-        const set<Estudi>& estudis = anyEstudis->second;
+        const set<Estudi, greater<Estudi>>& estudis = anyEstudis->second;
         cout << any << "  Estudis:";
 
         // Iterar sobre el set de estudis
@@ -186,7 +185,7 @@ int main() {
         } else if (n == 5) {
             nHabitantsUnAnyUnDistricted(padro);
         } else if (n == 6) {
-            resumEstudis(padro);
+            mostrarResumEstudis(padro);
         } else if (n == 7) {
             nEstudisDistricted(padro);
         } else if (n == 8) {

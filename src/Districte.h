@@ -28,7 +28,7 @@ public:
      * @pre  --
      * @post Inicialitza el Districte amb les estructures de dades buides.
      */
-    Districte();
+    Districte() = default; ///< serveix per ressoldre l'error de "undefined reference"
 
     /**
      * @brief Afegeix un habitant a les estructures de dades del Districte.
@@ -92,7 +92,7 @@ public:
      */
     long comptaEdatNacionalitat(int anyNaixement, int codiNacionalitat) const;
 
-    map<int, long> Districte::obtenirHabitantsPerSeccio() const;
+    map<int, long> obtenirHabitantsPerSeccio() const;
 
 private:
     list<Persona> _Persones; ///< Llista de persones que resideixen al districte.
