@@ -112,11 +112,11 @@ bool Padro::dadesCorrectes(int any, int districte, int seccio, int codiNivellEst
 void Padro::afegirDades(int any, int districte, int seccio, int codiNivellEstudis, const string &nivellEstudis,
                         int anyNaixement, int codiNacionalitat, const string &nomNacionalitat) {
     if (existeixAny(any)) {
-        _districtes[any][districte - 1].afegir(seccio, codiNivellEstudis, nivellEstudis, anyNaixement, codiNacionalitat,
+        _districtes[any][districte].afegir(seccio, codiNivellEstudis, nivellEstudis, anyNaixement, codiNacionalitat,
                                                nomNacionalitat);
     } else {
         vector<Districte> nousDistrictes(MIDA);
-        nousDistrictes[districte - 1].afegir(seccio, codiNivellEstudis, nivellEstudis, anyNaixement, codiNacionalitat,
+        nousDistrictes[districte].afegir(seccio, codiNivellEstudis, nivellEstudis, anyNaixement, codiNacionalitat,
                                              nomNacionalitat);
         _districtes[any] = nousDistrictes;
     }
