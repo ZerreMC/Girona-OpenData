@@ -115,15 +115,20 @@ void mostrarResumEstudis(const Padro &padro) {
     ResumEstudis::const_iterator anyEstudis = resum.begin();
     while (anyEstudis != resum.end()) {
         int any = anyEstudis->first;
-
         const set<string, greater<string> > &estudis = anyEstudis->second;
+
         cout << any << "  Estudis:";
 
+        bool primer = true;
         // Itera sobre el set d'estudis
         set<string, greater<string> >::const_iterator it = estudis.begin();
-
         while (it != estudis.end()) {
-            cout << (it == estudis.begin() ? " " : " -- ") << *it;
+            if(not primer) {
+                cout << " -- ";
+            } else {
+                primer = false;
+            }
+            cout << *it;
             it++;
         }
         cout << endl;

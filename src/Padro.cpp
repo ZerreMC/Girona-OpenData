@@ -66,7 +66,7 @@ map<int, long> Padro::obtenirNumHabitantsPerSeccio(int any, int districte) const
 }
 
 ResumEstudis Padro::resumEstudis() const {
-    return {};
+    return _estudis;
 }
 
 
