@@ -25,10 +25,12 @@ void existeixAny(const Padro &padro) {
     cout << "********************" << endl;
 
     int any;
-    cout << "Any: ";
+    cout << "Any:";
     cin >> any;
-    if (padro.existeixAny(any)) cout << "Any existent" << endl;
-    else cout << "Any inexistent" << endl;
+    if (padro.existeixAny(any))
+        cout << "Any existent" << endl;
+    else
+        cout << "Any inexistent" << endl;
 }
 
 void obtenirNHabitants(const Padro &padro) {
@@ -46,7 +48,7 @@ void obtenirNHabitants(const Padro &padro) {
         promig += it->second;
         n++, it++;
     }
-    cout << "PROMIG: " << setprecision(2) << promig / n << endl;
+    cout << "PROMIG: " << fixed << setprecision(2) << promig / n << endl;
 }
 
 void nHabitantsUnAny(const Padro &padro) {
@@ -55,12 +57,12 @@ void nHabitantsUnAny(const Padro &padro) {
     cout << "*******************************************" << endl;
 
     int any;
-    cout << "Any: ";
+    cout << "Any:";
     cin >> any;
 
     vector<long> habitants = padro.obtenirNumHabitantsPerDistricte(any);
     int total = 0;
-    for (int i = 0; i < habitants.size(); i++) {
+    for (int i = 1; i < habitants.size(); i++) {
         cout << "Districte " << i << setw(13) << "habitants:" << setw(7) << habitants[i] << endl;
         total += habitants[i];
     }
@@ -73,27 +75,34 @@ void nHabitantsUnAnyUnDistricted(const Padro &padro) {
     cout << "*******************************************************" << endl;
 
     int any, districte;
-    cout << "Any: ";
+    map<int, long> habitants;
+
+    // Bucle per validar l'any
     cin >> any;
-    cout << "Districte ";
-    cin >> districte;
-
-    map<int, long> habitants = padro.obtenirNumHabitantsPerSeccio(any, districte);
-
-    if (!habitants.empty()) {
-        cout << "Any:" << setw(8) << any << "  Districte:" << districte << endl;
-
-        long totalHabitants = 0;
-        for (const auto &entry: habitants) {
-            cout << "Seccio " << entry.first
-                    << setw(10) << "habitants:" << setw(8) << entry.second << endl;
-            totalHabitants += entry.second;
-        }
-
-        cout << "TOTAL :" << setw(5) << totalHabitants << endl;
-    } else {
-        cout << "No hi ha dades per l'any i districte especificats." << endl;
+    while (!padro.existeixAny(any)) {
+        cerr << "ERROR any " << any << " inexistent" << endl;
+        cin >> any;
     }
+
+    // Bucle per validar el districte
+    cin >> districte;
+    habitants = padro.obtenirNumHabitantsPerSeccio(any, districte);
+    while (habitants.empty()) {
+        cerr << "ERROR districte " << districte << " inexistent" << endl;
+        cin >> districte;
+        habitants = padro.obtenirNumHabitantsPerSeccio(any, districte);
+    }
+
+    // Mostrar el nombre d'habitants per secció si any i districte són vàlids
+    cout << "Any:" << any << "  Districte:" << districte << endl;
+    long totalHabitants = 0;
+    for (const auto &entry : habitants) {
+        cout << "Seccio " << entry.first
+             << setw(13) << "habitants:" << setw(7) << entry.second << endl;
+        totalHabitants += entry.second;
+    }
+
+    cout << "TOTAL : " << totalHabitants << endl;
 }
 
 void mostrarResumEstudis(const Padro &padro) {

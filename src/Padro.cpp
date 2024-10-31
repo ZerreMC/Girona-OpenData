@@ -60,9 +60,8 @@ map<int, long> Padro::obtenirNumHabitantsPerSeccio(int any, int districte) const
         } else {
             cerr << "Districte fora de rang per l'any especificat." << endl;
         }
-    } else {
-        cerr << "Any o districte no existent." << endl;
     }
+
     return habitantsPerSec;
 }
 
