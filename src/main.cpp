@@ -137,10 +137,21 @@ void mostrarResumEstudis(const Padro &padro) {
 }
 
 
-void nEstudisDistricted(const Padro &padro) {
+void nEstudisDistricte(const Padro &padro) {
     cout << "**************************************" << endl;
     cout << "* 07: Nombre d'estudis per districte *" << endl;
     cout << "**************************************" << endl;
+    int districte;
+    cout << "Districte:";
+    cin >> districte;
+
+    map<int, int> habitants = padro.nombreEstudisDistricte(districte);
+    map<int, int>::iterator it = habitants.begin();
+    while(it != habitants.end()) {
+        cout << "Any " << it->first << "  Num Estudis:" << it->second << endl;
+        it++;
+    }
+
 }
 
 void resumNivellEstudis(const Padro &padro) {
@@ -204,7 +215,7 @@ int main() {
         } else if (n == 6) {
             mostrarResumEstudis(padro);
         } else if (n == 7) {
-            nEstudisDistricted(padro);
+            nEstudisDistricte(padro);
         } else if (n == 8) {
             resumNivellEstudis(padro);
         } else if (n == 9) {

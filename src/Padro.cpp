@@ -69,6 +69,18 @@ ResumEstudis Padro::resumEstudis() const {
     return _estudis;
 }
 
+map<int, int> Padro::nombreEstudisDistricte(int districte) const {
+    map<int, int> estudisPerDist;
+    map<int, vector<Districte>>::const_iterator it = _districtes.begin();
+
+    while (it != _districtes.end()) {
+        int any = it->first;
+        estudisPerDist[any] = it->second[districte].obtenirNivelEstudis();
+        it++;
+    }
+    return estudisPerDist;
+}
+
 
 int Padro::stringToInt(const string &s) {
     if (s.length() == 0) return -1;

@@ -70,7 +70,7 @@ public:
      * @pre  --
      * @post Retorna un conjunt amb els noms dels tipus d'estudis presents al Districte.
      */
-    set<string> resumEstudis() const;
+    set<string, greater<string>> resumEstudis() const;
 
     /**
      * @brief Obté un conjunt amb les nacionalitats dels habitants del Districte.
@@ -79,7 +79,7 @@ public:
      * @pre  --
      * @post Retorna un conjunt amb els noms de les nacionalitats dels habitants del Districte.
      */
-    set<string> resumNacionalitats() const;
+    set<string, greater<string>> resumNacionalitats() const;
 
     /**
      * @brief Compta el nombre d'habitants nascuts en un any específic i amb una nacionalitat determinada.
@@ -93,6 +93,8 @@ public:
     long comptaEdatNacionalitat(int anyNaixement, int codiNacionalitat) const;
 
     map<int, long> obtenirHabitantsPerSeccio() const;
+
+    int obtenirNivelEstudis() const;
 
 private:
     list<Persona> _Persones; ///< Llista de persones que resideixen al districte.
