@@ -24,7 +24,13 @@ long Districte::obtenirNumHabitants() const {
 }
 
 double Districte::obtenirEdatMitjana() const {
-    return obtenirNumHabitants() / _Persones.size();
+    double sumEdat = 0.0;
+    list<Persona>::const_iterator it = _Persones.begin();
+    while (it != _Persones.end()) {
+        sumEdat += ANY_ACTUAL - it->obtenirAnyNaixement();
+    }
+
+    return sumEdat / _Persones.size();
 }
 
 set<string, greater<string>> Districte::resumEstudis() const {
