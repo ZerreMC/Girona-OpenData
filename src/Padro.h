@@ -17,8 +17,12 @@ using namespace std;
 
 typedef map<int, set<string, greater<string>>> ResumEstudis;
 typedef map<int, vector<double>> ResumEdats;
-typedef map<int, vector<double>> ResumNivellEstudis;
+typedef map<int, vector<pair<char, double>>> ResumNivellEstudis;
 typedef map<int, map<int, long>> ResumNacionalitats;
+const vector<string> DISTRICTES = {"",
+        "Carme, Vila-roja", "Eixample, Montilivi", "Santa Eugenia, Mas Xirgu",
+        "Casc Antic", "Montjuic, Pont major", "Sant Ponc, Domeny, Taiala"
+    }; ///< Vector constant que conté els noms dels districtes, sense possibilitat de modificació.
 
 class Padro {
 public:
@@ -165,7 +169,7 @@ public:
     list<string> estudisEdat(int any, int districte, int edat, int codiNacionalitat) const;
 
 private:
-    map<int, vector<Districte> > _districtes;
+    map<int, vector<Districte>> _districtes;
     ///< Estructura que associa cada any amb un vector de districtes, emmagatzemant les dades per any i districte.
 
     map<int, long> _habitantsPerAny;
@@ -173,7 +177,6 @@ private:
 
     ResumEstudis _estudis;
     ResumEdats _edats;
-    ResumNivellEstudis _nivellEstudis;
     ResumNacionalitats _nacionalitats;
 
     /**
@@ -228,11 +231,6 @@ private:
      */
     void afegirDades(int any, int districte, int seccio, int codiNivellEstudis, const string &nivellEstudis,
                      int anyNaixement, int codiNacionalitat, const string &nomNacionalitat);
-
-    const vector<string> DISTRICTES = {"",
-        "Carme, Vila-roja", "Eixample, Montilivi", "Santa Eugenia, Mas Xirgu",
-        "Casc Antic", "Montjuic, Pont major", "Sant Ponc, Domeny, Taiala"
-    }; ///< Vector constant que conté els noms dels districtes, sense possibilitat de modificació.
 
     const int MIDA = 7;
     ///< Constant que defineix la mida del vector `DISTRICTES`, indicant el nombre total de districtes.

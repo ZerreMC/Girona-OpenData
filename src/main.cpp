@@ -69,7 +69,7 @@ void nHabitantsUnAny(const Padro &padro) {
     cout << "TOTAL : " << total << endl;
 }
 
-void nHabitantsUnAnyUnDistricted(const Padro &padro) {
+void nHabitantsUnAnyUnDistricte(const Padro &padro) {
     cout << "*******************************************************" << endl;
     cout << "* 05: Obtenir nombre d'habitants d'un any i districte *" << endl;
     cout << "*******************************************************" << endl;
@@ -158,6 +158,24 @@ void resumNivellEstudis(const Padro &padro) {
     cout << "******************************" << endl;
     cout << "* 08: Resum nivell d'estudis *" << endl;
     cout << "******************************" << endl;
+
+    ResumNivellEstudis resum = padro.resumNivellEstudis();
+
+    map<int, vector<pair<char, double>>>::const_iterator it = resum.begin();
+    while (it != resum.end()) {
+        int any = it->first;
+        cout << any << ":" << endl;
+
+        const vector<pair<char, double>>& distritos = it->second;
+        for (int i = 1; i < distritos.size(); i++) {
+            char simbol = distritos[i].first;
+            double promig = distritos[i].second;
+
+            cout << "\t   " << simbol << " ";
+            cout << DISTRICTES[i] << setw(32) << right << "Promig Estudis: " << setw(10) << fixed << setprecision(2) << promig << endl;
+        }
+        it++;
+    }
 }
 
 void resumNacionalitats(const Padro &padro) {
@@ -211,7 +229,7 @@ int main() {
         } else if (n == 4) {
             nHabitantsUnAny(padro);
         } else if (n == 5) {
-            nHabitantsUnAnyUnDistricted(padro);
+            nHabitantsUnAnyUnDistricte(padro);
         } else if (n == 6) {
             mostrarResumEstudis(padro);
         } else if (n == 7) {

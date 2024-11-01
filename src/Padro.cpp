@@ -75,12 +75,59 @@ map<int, int> Padro::nombreEstudisDistricte(int districte) const {
 
     while (it != _districtes.end()) {
         int any = it->first;
-        estudisPerDist[any] = it->second[districte].obtenirNivelEstudis();
+        estudisPerDist[any] = it->second[districte].obtenirNivellEstudis();
         it++;
     }
     return estudisPerDist;
 }
 
+ResumNivellEstudis Padro::resumNivellEstudis() const {
+    ResumNivellEstudis resultat;
+
+    map<int, vector<Districte>>::const_iterator it = _districtes.begin();
+    while (it != _districtes.end()) {
+        int any = it->first;
+        vector<pair<char, double>> nivellsPromig(MIDA, make_pair(' ', 0.0));
+
+        int indexMax = -1;
+        int indexMin = -1;
+        double maxPromig = 0.0;
+        double minPromig = -1.0;
+
+        // Recorre cada distrito del año actual
+        for (int i = 1; i < it->second.size(); i++) {
+            long numHabitants = it->second[i].obtenirNumHabitants();
+            long totalNivellEstudis = it->second[i].obtenirTotalNivellEstudis();
+
+            if (numHabitants > 0) {
+                double promig = static_cast<double>(totalNivellEstudis) / numHabitants;
+                nivellsPromig[i] = make_pair(' ', promig);
+
+                if (indexMax == -1 or promig > maxPromig) {
+                    maxPromig = promig;
+                    indexMax = i;
+                }
+                if (indexMin == -1 or promig < minPromig) {
+                    minPromig = promig;
+                    indexMin = i;
+                }
+            }
+        }
+
+        // Asigna los símbolos de máximo y mínimo
+        if (indexMax != -1) {
+            nivellsPromig[indexMax].first = '+';
+        }
+        if (indexMin != -1 && indexMin != indexMax) {
+            nivellsPromig[indexMin].first = '-';
+        }
+
+        resultat[any] = nivellsPromig;
+        it++;
+    }
+
+    return resultat;
+}
 
 int Padro::stringToInt(const string &s) {
     if (s.length() == 0) return -1;
@@ -142,7 +189,4 @@ void Padro::afegirDades(int any, int districte, int seccio, int codiNivellEstudi
     _edats[any].resize(MIDA);
     _edats[any][districte] += edat;
 
-    // Actualiza _nivellEstudis
-    _nivellEstudis[any].resize(MIDA); // Asegura que el vector té MIDA districtes
-    _nivellEstudis[any][districte] += codiNivellEstudis;
 }

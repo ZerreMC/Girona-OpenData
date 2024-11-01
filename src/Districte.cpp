@@ -61,6 +61,16 @@ map<int, long> Districte::obtenirHabitantsPerSeccio() const {
     return map<int, long>(_habitantsPerSeccio.begin(), _habitantsPerSeccio.end());
 }
 
-int Districte::obtenirNivelEstudis() const {
+int Districte::obtenirNivellEstudis() const {
     return _Estudis.size();
+}
+
+long Districte::obtenirTotalNivellEstudis() const {
+    int total = 0;
+    set<Estudi, greater<Estudi>>::const_iterator it = _Estudis.begin();
+    while (it != _Estudis.end()) {
+        total += it->obtenirId();
+        it++;
+    }
+    return total;
 }

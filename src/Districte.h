@@ -94,7 +94,10 @@ public:
 
     map<int, long> obtenirHabitantsPerSeccio() const;
 
-    int obtenirNivelEstudis() const;
+    int obtenirNivellEstudis() const;
+
+    long obtenirTotalNivellEstudis() const;
+
 
 private:
     list<Persona> _Persones; ///< Llista de persones que resideixen al districte.
