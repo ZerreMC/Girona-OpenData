@@ -154,6 +154,7 @@ void nEstudisDistricte(const Padro &padro) {
 
 }
 
+// TE UN ERROR DE CALCUL EN EL PROMIG
 void resumNivellEstudis(const Padro &padro) {
     cout << "******************************" << endl;
     cout << "* 08: Resum nivell d'estudis *" << endl;
