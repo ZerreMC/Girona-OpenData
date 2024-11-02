@@ -51,6 +51,8 @@ public:
 
     bool operator>(const Estudi &estudi) const;
 
+    bool operator<(const Estudi &estudi) const;
+
 private:
     int _id; ///< Codi identificador de l'estudi.
     string _nom; ///< Nom de l'estudi.

@@ -13,10 +13,11 @@ void Districte::afegir(int seccio, int codiNivellEstudis, const string &nivellEs
     Estudi estudi(codiNivellEstudis, nivellEstudis);
     _Estudis.insert(estudi);
 
-    Nacionalitat nacionalitat(codiNivellEstudis, nivellEstudis);
+    Nacionalitat nacionalitat(codiNacionalitat, nomNacionalitat);
     _Nacionalitats.insert(nacionalitat);
 
     _habitantsPerSeccio[seccio]++;
+    _habitantsPerNacio[nacionalitat]++;
 }
 
 long Districte::obtenirNumHabitants() const {
@@ -29,7 +30,6 @@ double Districte::obtenirEdatMitjana() const {
     while (it != _Persones.end()) {
         sumEdat += ANY_ACTUAL - it->obtenirAnyNaixement();
     }
-
     return sumEdat / _Persones.size();
 }
 
@@ -57,6 +57,7 @@ set<string, greater<string>> Districte::resumNacionalitats() const {
     return nacionalitats;
 }
 
+// FALTA IMPLEMENTAR
 long Districte::comptaEdatNacionalitat(int anyNaixement, int codiNacionalitat) const {
     long total = 0;
 
@@ -79,4 +80,8 @@ long Districte::obtenirTotalNivellEstudis() const {
         it++;
     }
     return total;
+}
+
+map<Nacionalitat, long> Districte:: obtenirHabitantsPerNacio() const{
+    return _habitantsPerNacio;
 }

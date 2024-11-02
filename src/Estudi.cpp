@@ -24,3 +24,7 @@ bool Estudi::operator==(const Estudi &estudi) const {
 bool Estudi::operator>(const Estudi &estudi) const {
     return _id > estudi._id;
 }
+
+bool Estudi::operator<(const Estudi &estudi) const {
+    return _id < estudi._id;
+}

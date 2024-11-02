@@ -24,3 +24,7 @@ bool Nacionalitat::operator==(const Nacionalitat &nacio) const {
 bool Nacionalitat::operator>(const Nacionalitat &nacio) const {
     return _id > nacio._id;
 }
+
+bool Nacionalitat::operator<(const Nacionalitat &nacio) const {
+    return _id < nacio._id;
+}

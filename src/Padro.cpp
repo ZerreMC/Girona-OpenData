@@ -129,6 +129,31 @@ ResumNivellEstudis Padro::resumNivellEstudis() const {
     return resultat;
 }
 
+ResumNacionalitats Padro::resumNacionalitats() const {
+    ResumNacionalitats resultat;
+
+    map<int, vector<Districte>>::const_iterator it_any = _districtes.begin();
+    while (it_any != _districtes.end()) {
+        int any = it_any->first;
+        map<Nacionalitat, long> nacionalitatsPerAny;
+
+        // Recorre cada districte en un any determinat
+        for (int i = 1; i < it_any->second.size(); i++) {
+            const map<Nacionalitat, long>& habitantsNacio = it_any->second[i].obtenirHabitantsPerNacio();
+
+            map<Nacionalitat, long>::const_iterator it_nacio = habitantsNacio.begin();
+
+            while ( it_nacio != habitantsNacio.end()) {
+                nacionalitatsPerAny[it_nacio->first] += it_nacio->second;
+                it_nacio++;
+            }
+        }
+        resultat[any] = nacionalitatsPerAny;
+        it_any++;
+    }
+    return resultat;
+}
+
 int Padro::stringToInt(const string &s) {
     if (s.length() == 0) return -1;
     for (char c: s) {

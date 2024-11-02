@@ -98,12 +98,15 @@ public:
 
     long obtenirTotalNivellEstudis() const;
 
+    map<Nacionalitat, long> obtenirHabitantsPerNacio() const;
+
 
 private:
-    list<Persona> _Persones; ///< Llista de persones que resideixen al districte.
+    list<Persona> _Persones; ///< Conjunt de persones que resideixen al districte.
     set<Estudi, greater<Estudi>> _Estudis; ///< Conjunt d'estudis dels habitants del districte per evitar duplicats.
     set<Nacionalitat, greater<Nacionalitat>> _Nacionalitats; ///< Conjunt de nacionalitats dels habitants del districte per evitar duplicats.
     unordered_map<int, long> _habitantsPerSeccio;
+    map<Nacionalitat, long> _habitantsPerNacio; ///< Estructura de dades que conta les persones que
 };
 
 #endif // DISTRICTE_H

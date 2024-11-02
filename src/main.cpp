@@ -136,7 +136,6 @@ void mostrarResumEstudis(const Padro &padro) {
     }
 }
 
-
 void nEstudisDistricte(const Padro &padro) {
     cout << "**************************************" << endl;
     cout << "* 07: Nombre d'estudis per districte *" << endl;
@@ -179,36 +178,61 @@ void resumNivellEstudis(const Padro &padro) {
     }
 }
 
+// Falta implementar
 void resumNacionalitats(const Padro &padro) {
     cout << "******************************" << endl;
     cout << "* 09: Resum de nacionalitats *" << endl;
     cout << "******************************" << endl;
+
+    ResumNacionalitats resum = padro.resumNacionalitats();
+    map<int, map<Nacionalitat, long>>::const_iterator it_Any = resum.begin();
+    // Recorre cada any
+    while (it_Any != resum.end()) {
+        cout << it_Any->first << endl;
+
+        map<Nacionalitat, long>::const_iterator it_Nacio=it_Any->second.begin();
+        // Recorre cada nacionalitat d'un any
+        while (it_Nacio != it_Any->second.end()) {
+            cout << "\t   " << left << setw(30) << it_Nacio->first.obtenirNom()
+                             << "(" << it_Nacio->first.obtenirId() << ") :";
+
+            cout << right << setw(10) << it_Nacio->second << endl;
+            it_Nacio++;
+        }
+        it_Any++;
+    }
+
 }
 
+// Falta implementar
 void movimentsUnaComunitat(const Padro &padro) {
     cout << "*********************************" << endl;
     cout << "* 10: Movimente d'una comunitat *" << endl;
     cout << "*********************************" << endl;
 }
 
+// Falta implementar
 void resumEdats(const Padro &padro) {
     cout << "*********************" << endl;
     cout << "* 11: Resum d'edats *" << endl;
     cout << "*********************" << endl;
 }
 
+// Falta implementar
 void movimentsVells(const Padro &padro) {
     cout << "****************************" << endl;
     cout << "* 12: Movimente dels vells *" << endl;
     cout << "****************************" << endl;
 }
 
+// Falta implementar
 void mesJoves(const Padro &padro) {
     cout << "*****************" << endl;
     cout << "* 13: Més joves *" << endl;
     cout << "*****************" << endl;
 }
 
+// Falta implementar
 void estudisAnyDistricteEdatNacionalitat(const Padro &padro) {
     cout << "********************************************" << endl;
     cout << "* 14: Estudis any, districte, edat i nació *" << endl;
