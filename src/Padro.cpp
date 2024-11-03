@@ -240,6 +240,23 @@ ResumEdats Padro::resumEdat() const {
     return resultat;
 }
 
+map<int, string> Padro::movimentVells() const {
+    map<int, string> resultat;
+
+    ResumEdats resum = resumEdat();
+    map<int, vector<double>>::const_iterator it_any = resum.begin();
+    while (it_any != resum.end()) {
+        int any = it_any->first;
+        // L'índex del districte més envellit és l'últim en el vector ordenat
+        int districteIndex = it_any->second.size() - 1;
+
+        resultat[any] = DISTRICTES[districteIndex + 1];
+
+        it_any++;
+    }
+    return resultat;
+}
+
 int Padro::stringToInt(const string &s) {
     if (s.length() == 0) return -1;
     for (char c: s) {

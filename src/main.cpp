@@ -227,23 +227,17 @@ void resumEdats(const Padro &padro) {
     cout << "* 11: Resum d'edats *" << endl;
     cout << "*********************" << endl;
 
-    // Obtenim el resum d'edats del padro
     ResumEdats resum = padro.resumEdat();
     map<int, vector<double>>::const_iterator it_any = resum.begin();
 
-    // Iterem sobre cada any en el resum
     while (it_any != resum.end()) {
         int any = it_any->first;
         cout << any << ":" << endl;
 
         const vector<double>& edatsPromig = it_any->second;
 
-        // Iterem sobre cada edat promig dins del vector
         for (int i = 0; i < edatsPromig.size(); ++i) {
-            // Obtenim el nom del districte segons l'índex (DISTRICTES comença en 1)
             string nomDistricte = DISTRICTES[i+1];
-
-            // Imprimim el nom del districte i l'edat promig amb el format adequat
             cout << "       " << setw(30) << left << nomDistricte
                  << "Promig Edat: " << setw(10) << right << fixed << setprecision(2) << edatsPromig[i] << endl;
         }
@@ -254,9 +248,22 @@ void resumEdats(const Padro &padro) {
 // Falta implementar
 void movimentsVells(const Padro &padro) {
     cout << "****************************" << endl;
-    cout << "* 12: Movimente dels vells *" << endl;
+    cout << "* 12: Moviments dels vells *" << endl;
     cout << "****************************" << endl;
+
+    // Obtenim el districte més envellit per cada any
+    map<int, string> resumVells = padro.movimentVells();
+    map<int, string>::const_iterator it_any = resumVells.begin();
+
+    while (it_any != resumVells.end()) {
+        int any = it_any->first;
+        const string& districte = it_any->second;
+
+        cout << any << setw(30) << districte << endl;
+        it_any++;
+    }
 }
+
 
 // Falta implementar
 void mesJoves(const Padro &padro) {
