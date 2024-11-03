@@ -185,23 +185,22 @@ void resumNacionalitats(const Padro &padro) {
     cout << "******************************" << endl;
 
     ResumNacionalitats resum = padro.resumNacionalitats();
-    map<int, map<Nacionalitat, long>>::const_iterator it_Any = resum.begin();
+    map<int, multimap<long, Nacionalitat, greater<long>>>::const_iterator it_Any = resum.begin();
+
     // Recorre cada any
     while (it_Any != resum.end()) {
         cout << it_Any->first << endl;
 
-        map<Nacionalitat, long>::const_iterator it_Nacio=it_Any->second.begin();
+        multimap<long, Nacionalitat, greater<long>>::const_iterator it_Nacio = it_Any->second.begin();
         // Recorre cada nacionalitat d'un any
         while (it_Nacio != it_Any->second.end()) {
-            cout << "\t   " << left << setw(30) << it_Nacio->first.obtenirNom()
-                             << "(" << it_Nacio->first.obtenirId() << ") :";
-
-            cout << right << setw(10) << it_Nacio->second << endl;
+            cout << "\t   " << left << setw(30) << it_Nacio->second.obtenirNom()
+                             << "(" << it_Nacio->second.obtenirId() << ") :";
+            cout << right << setw(10) << it_Nacio->first << endl;
             it_Nacio++;
         }
         it_Any++;
     }
-
 }
 
 // Falta implementar

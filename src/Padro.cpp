@@ -132,25 +132,35 @@ ResumNivellEstudis Padro::resumNivellEstudis() const {
 ResumNacionalitats Padro::resumNacionalitats() const {
     ResumNacionalitats resultat;
 
+    // Itera sobre cada año en el mapa _districtes
     map<int, vector<Districte>>::const_iterator it_any = _districtes.begin();
     while (it_any != _districtes.end()) {
         int any = it_any->first;
-        map<Nacionalitat, long> nacionalitatsPerAny;
+        unordered_map<Nacionalitat, long> nacionalitatsPerAny;
 
-        // Recorre cada districte en un any determinat
-        for (int i = 1; i < it_any->second.size(); i++) {
-            const map<Nacionalitat, long>& habitantsNacio = it_any->second[i].obtenirHabitantsPerNacio();
+        // Recorre cada districte en l'any actual
+        for (int i = 1; i < it_any->second.size(); ++i) {
+            const unordered_map<Nacionalitat, long>& habitantsNacio = it_any->second[i].obtenirHabitantsPerNacio();
 
-            map<Nacionalitat, long>::const_iterator it_nacio = habitantsNacio.begin();
-
-            while ( it_nacio != habitantsNacio.end()) {
-                nacionalitatsPerAny[it_nacio->first] += it_nacio->second;
-                it_nacio++;
+            // Acumula la cantitat d'habitants per nacionalitat
+            for (const auto& it_nacio : habitantsNacio) {
+                const Nacionalitat& nacionalitat = it_nacio.first;
+                long quantitat = it_nacio.second;
+                nacionalitatsPerAny[nacionalitat] += quantitat;
             }
         }
-        resultat[any] = nacionalitatsPerAny;
+
+        // Transfeix del unordered_map al multimap per ordenar per cantitat evitant duplicats de nacionalitats
+        multimap<long, Nacionalitat, greater<long>> ordenat;
+        for (const auto& it : nacionalitatsPerAny) {
+            ordenat.insert({it.second, it.first});
+        }
+
+        // Afegeix el resultat ordenat al map per any
+        resultat[any] = ordenat;
         it_any++;
     }
+
     return resultat;
 }
 

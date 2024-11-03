@@ -11,6 +11,8 @@ using namespace std;
 
 class Nacionalitat {
 public:
+    Nacionalitat() = default;
+
     /**
      * @brief Constructor que inicialitza una nacionalitat amb un codi i un nom especificats.
      *
@@ -57,5 +59,15 @@ private:
     int _id; ///< Codi identificador del país.
     string _nom; ///< Nom del país de la nacionalitat.
 };
+
+
+namespace std {
+    template<>
+    struct hash<Nacionalitat> {
+        size_t operator()(const Nacionalitat &n) const noexcept {
+            return std::hash<int>()(n.obtenirId());
+        }
+    };
+}
 
 #endif // NACIONALITAT_H

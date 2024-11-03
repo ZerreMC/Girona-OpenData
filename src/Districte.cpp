@@ -82,6 +82,6 @@ long Districte::obtenirTotalNivellEstudis() const {
     return total;
 }
 
-map<Nacionalitat, long> Districte:: obtenirHabitantsPerNacio() const{
+unordered_map<Nacionalitat, long> Districte:: obtenirHabitantsPerNacio() const{
     return _habitantsPerNacio;
 }

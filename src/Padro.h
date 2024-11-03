@@ -7,6 +7,7 @@
 
 #include <vector>
 #include <map>
+#include <unordered_map>
 #include <list>
 #include <string>
 #include <fstream>
@@ -18,7 +19,7 @@ using namespace std;
 typedef map<int, set<string, greater<string>>> ResumEstudis;
 typedef map<int, vector<double>> ResumEdats;
 typedef map<int, vector<pair<char, double>>> ResumNivellEstudis;
-typedef map<int, map<Nacionalitat, long>> ResumNacionalitats;
+typedef map<int, multimap<long, Nacionalitat,greater<long>>> ResumNacionalitats;
 
 const vector<string> DISTRICTES = {"",
         "Carme, Vila-roja", "Eixample, Montilivi", "Santa Eugenia, Mas Xirgu",
