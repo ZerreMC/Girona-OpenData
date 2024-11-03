@@ -245,7 +245,7 @@ void resumEdats(const Padro &padro) {
     }
 }
 
-// Falta implementar
+// TE UN ERROR DE CALCUL DE VELLS
 void movimentsVells(const Padro &padro) {
     cout << "****************************" << endl;
     cout << "* 12: Moviments dels vells *" << endl;
