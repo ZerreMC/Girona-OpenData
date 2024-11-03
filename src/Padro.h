@@ -11,6 +11,7 @@
 #include <list>
 #include <string>
 #include <fstream>
+#include <algorithm>
 #include "Districte.h"
 #include "Eines.h"
 

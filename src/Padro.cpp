@@ -174,7 +174,7 @@ map<int, string> Padro::movimentsComunitat(int codiNacionalitat) const {
         long maxHabitants = 0;
         int districteMaxIndex = 0;
 
-        // Recorre cada districte de l'any actaul
+        // Recorre cada districte de l'any actual
         for (int i = 1; i < it_any->second.size(); i++) {
             const Districte &districte = it_any->second[i];
 
@@ -201,6 +201,40 @@ map<int, string> Padro::movimentsComunitat(int codiNacionalitat) const {
         } else {
             resultat[any] = DISTRICTES[districteMaxIndex];
         }
+        it_any++;
+    }
+    return resultat;
+}
+
+ResumEdats Padro::resumEdat() const {
+    ResumEdats resultat;
+
+    map<int, vector<Districte> >::const_iterator it_any = _districtes.begin();
+    while (it_any != _districtes.end()) {
+        int any = it_any->first;
+        vector<pair<double, int> > edatsPromig;
+
+        // Recorre cada districte en l'any actual
+        for (int i = 1; i < it_any->second.size(); i++) {
+            double promigEdat = it_any->second[i].obtenirEdatMitjana();
+            edatsPromig.push_back(make_pair(promigEdat, i));
+        }
+
+        // Ordena les mitjanes d'edat en ordre ascendent
+        sort(edatsPromig.begin(), edatsPromig.end());
+
+        // Crea un vector de mitjanes d'edat ordenades per a l'any
+        vector<double> edatsOrdenades;
+
+        vector<pair<double, int> >::const_iterator it = edatsPromig.begin();
+        while (it != edatsPromig.end()) {
+            edatsOrdenades.push_back(it->first);
+            it++;
+        }
+
+        // Emmagatzema el vector d'edats ordenades al mapa de resultats
+        resultat[any] = edatsOrdenades;
+
         it_any++;
     }
     return resultat;

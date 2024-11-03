@@ -29,8 +29,9 @@ double Districte::obtenirEdatMitjana() const {
     list<Persona>::const_iterator it = _Persones.begin();
     while (it != _Persones.end()) {
         sumEdat += ANY_ACTUAL - it->obtenirAnyNaixement();
+        it++;
     }
-    return sumEdat / _Persones.size();
+    return _Persones.empty() ? 0.0 : sumEdat / _Persones.size();
 }
 
 set<string, greater<string>> Districte::resumEstudis() const {
