@@ -60,7 +60,8 @@ private:
     string _nom; ///< Nom del país de la nacionalitat.
 };
 
-
+// Especialització del hash en el std per fer-ho global.
+// Sino no es pot declarar un unordered_map d'una classe per default
 namespace std {
     template<>
     struct hash<Nacionalitat> {
