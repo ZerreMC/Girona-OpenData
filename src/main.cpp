@@ -178,7 +178,6 @@ void resumNivellEstudis(const Padro &padro) {
     }
 }
 
-// Falta implementar
 void resumNacionalitats(const Padro &padro) {
     cout << "******************************" << endl;
     cout << "* 09: Resum de nacionalitats *" << endl;
@@ -203,11 +202,23 @@ void resumNacionalitats(const Padro &padro) {
     }
 }
 
-// Falta implementar
 void movimentsUnaComunitat(const Padro &padro) {
     cout << "*********************************" << endl;
     cout << "* 10: Movimente d'una comunitat *" << endl;
     cout << "*********************************" << endl;
+
+    int codiNacionalitat;
+    cin >> codiNacionalitat;
+    cout << "Codi Nacionalitat:" << codiNacionalitat << endl;
+
+    map<int, string> resumHabitants = padro.movimentsComunitat(codiNacionalitat);
+    map<int, string>::const_iterator it_Any = resumHabitants.begin();
+    while (it_Any != resumHabitants.end()) {
+        int any = it_Any->first;
+        const string& districte = it_Any->second;
+        cout << any << setw(30) << districte << endl;
+        it_Any++;
+    }
 }
 
 // Falta implementar

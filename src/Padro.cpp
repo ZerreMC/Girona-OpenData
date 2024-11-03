@@ -71,7 +71,7 @@ ResumEstudis Padro::resumEstudis() const {
 
 map<int, int> Padro::nombreEstudisDistricte(int districte) const {
     map<int, int> estudisPerDist;
-    map<int, vector<Districte>>::const_iterator it = _districtes.begin();
+    map<int, vector<Districte> >::const_iterator it = _districtes.begin();
 
     while (it != _districtes.end()) {
         int any = it->first;
@@ -84,10 +84,10 @@ map<int, int> Padro::nombreEstudisDistricte(int districte) const {
 ResumNivellEstudis Padro::resumNivellEstudis() const {
     ResumNivellEstudis resultat;
 
-    map<int, vector<Districte>>::const_iterator it = _districtes.begin();
+    map<int, vector<Districte> >::const_iterator it = _districtes.begin();
     while (it != _districtes.end()) {
         int any = it->first;
-        vector<pair<char, double>> nivellsPromig(MIDA, make_pair(' ', 0.0));
+        vector<pair<char, double> > nivellsPromig(MIDA, make_pair(' ', 0.0));
 
         int indexMax = -1;
         int indexMin = -1;
@@ -133,26 +133,26 @@ ResumNacionalitats Padro::resumNacionalitats() const {
     ResumNacionalitats resultat;
 
     // Itera sobre cada año en el mapa _districtes
-    map<int, vector<Districte>>::const_iterator it_any = _districtes.begin();
+    map<int, vector<Districte> >::const_iterator it_any = _districtes.begin();
     while (it_any != _districtes.end()) {
         int any = it_any->first;
         unordered_map<Nacionalitat, long> nacionalitatsPerAny;
 
         // Recorre cada districte en l'any actual
         for (int i = 1; i < it_any->second.size(); ++i) {
-            const unordered_map<Nacionalitat, long>& habitantsNacio = it_any->second[i].obtenirHabitantsPerNacio();
+            const unordered_map<Nacionalitat, long> &habitantsNacio = it_any->second[i].obtenirHabitantsPerNacio();
 
-            // Acumula la cantitat d'habitants per nacionalitat
-            for (const auto& it_nacio : habitantsNacio) {
-                const Nacionalitat& nacionalitat = it_nacio.first;
+            // Acumula la quantitat d'habitants per nacionalitat
+            for (const auto &it_nacio: habitantsNacio) {
+                const Nacionalitat &nacionalitat = it_nacio.first;
                 long quantitat = it_nacio.second;
                 nacionalitatsPerAny[nacionalitat] += quantitat;
             }
         }
 
         // Transfeix del unordered_map al multimap per ordenar per cantitat evitant duplicats de nacionalitats
-        multimap<long, Nacionalitat, greater<long>> ordenat;
-        for (const auto& it : nacionalitatsPerAny) {
+        multimap<long, Nacionalitat, greater<long> > ordenat;
+        for (const auto &it: nacionalitatsPerAny) {
             ordenat.insert({it.second, it.first});
         }
 
@@ -161,6 +161,48 @@ ResumNacionalitats Padro::resumNacionalitats() const {
         it_any++;
     }
 
+    return resultat;
+}
+
+map<int, string> Padro::movimentsComunitat(int codiNacionalitat) const {
+    map<int, string> resultat;
+
+    map<int, vector<Districte> >::const_iterator it_any = _districtes.begin();
+    // Recorre cada any
+    while (it_any != _districtes.end()) {
+        int any = it_any->first;
+        long maxHabitants = 0;
+        int districteMaxIndex = 0;
+
+        // Recorre cada districte de l'any actaul
+        for (int i = 1; i < it_any->second.size(); i++) {
+            const Districte &districte = it_any->second[i];
+
+            // Verifica si el districte té habitants de la nacionalitat sol·licitada
+            const unordered_map<Nacionalitat, long> habitantsNacio = districte.obtenirHabitantsPerNacio();
+            const unordered_map<Nacionalitat, long>::const_iterator it_nacionalitat = habitantsNacio.find(
+                codiNacionalitat);
+
+            // Si la nacionalitat existeix en el districte, es verifica la quantitat d'habitants
+            if (it_nacionalitat != habitantsNacio.end()) {
+                long habitantsNacionalitat = it_nacionalitat->second;
+
+                // Si el districte té més habitants d'aquesta nacionalitat, s'actualitza el valor del màxim
+                if (habitantsNacionalitat > maxHabitants) {
+                    maxHabitants = habitantsNacionalitat;
+                    districteMaxIndex = i;
+                }
+            }
+        }
+
+        // Afegeix el districte amb més habitants de la nacionalitat per l'any actual
+        if (districteMaxIndex == 0) {
+            resultat[any] = "No té habitants";
+        } else {
+            resultat[any] = DISTRICTES[districteMaxIndex];
+        }
+        it_any++;
+    }
     return resultat;
 }
 
@@ -206,11 +248,11 @@ void Padro::afegirDades(int any, int districte, int seccio, int codiNivellEstudi
                         int anyNaixement, int codiNacionalitat, const string &nomNacionalitat) {
     if (existeixAny(any)) {
         _districtes[any][districte].afegir(seccio, codiNivellEstudis, nivellEstudis, anyNaixement, codiNacionalitat,
-                                               nomNacionalitat);
+                                           nomNacionalitat);
     } else {
         vector<Districte> nousDistrictes(MIDA);
         nousDistrictes[districte].afegir(seccio, codiNivellEstudis, nivellEstudis, anyNaixement, codiNacionalitat,
-                                             nomNacionalitat);
+                                         nomNacionalitat);
         _districtes[any] = nousDistrictes;
     }
     // Actualiza _habitantsPerAny
@@ -223,5 +265,4 @@ void Padro::afegirDades(int any, int districte, int seccio, int codiNivellEstudi
     int edat = ANY_ACTUAL - anyNaixement;
     _edats[any].resize(MIDA);
     _edats[any][districte] += edat;
-
 }

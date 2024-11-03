@@ -13,6 +13,8 @@ class Nacionalitat {
 public:
     Nacionalitat() = default;
 
+    Nacionalitat(int id);
+
     /**
      * @brief Constructor que inicialitza una nacionalitat amb un codi i un nom especificats.
      *

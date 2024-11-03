@@ -4,6 +4,11 @@
 
 #include "Nacionalitat.h"
 
+Nacionalitat::Nacionalitat(int id) {
+    _id = id;
+    _nom = "";
+}
+
 Nacionalitat::Nacionalitat(int id, string nom) {
     _id = id;
     _nom = nom;
