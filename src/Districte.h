@@ -100,6 +100,8 @@ public:
 
     unordered_map<Nacionalitat, long> obtenirHabitantsPerNacio() const;
 
+    const list<Persona> obtenirPersones() const;
+
 
 private:
     list<Persona> _Persones; ///< Conjunt de persones que resideixen al districte.

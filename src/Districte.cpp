@@ -28,7 +28,8 @@ double Districte::obtenirEdatMitjana() const {
     double sumEdat = 0.0;
     list<Persona>::const_iterator it = _Persones.begin();
     while (it != _Persones.end()) {
-        sumEdat += ANY_ACTUAL - it->obtenirAnyNaixement();
+        int edat = ANY_ACTUAL - it->obtenirAnyNaixement();
+        sumEdat += edat;
         it++;
     }
     return _Persones.empty() ? 0.0 : sumEdat / _Persones.size();
@@ -85,4 +86,8 @@ long Districte::obtenirTotalNivellEstudis() const {
 
 unordered_map<Nacionalitat, long> Districte:: obtenirHabitantsPerNacio() const{
     return _habitantsPerNacio;
+}
+
+const list<Persona> Districte::obtenirPersones() const {
+    return _Persones;
 }

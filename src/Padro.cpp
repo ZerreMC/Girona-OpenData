@@ -257,6 +257,31 @@ map<int, string> Padro::movimentVells() const {
     return resultat;
 }
 
+list<string> Padro::estudisEdat(int any, int districte, int edat, int codiNacionalitat) const {
+    list<string> estudis;
+
+    // Verifica que l'any i districte existeixen en les dades
+    if (existeixAny(any) && districte > 0 && districte < _districtes.find(any)->second.size()) {
+        const Districte& districteObj = _districtes.find(any)->second[districte];
+
+        list<Persona>::const_iterator it_persona = districteObj.obtenirPersones().begin();
+        while (it_persona != districteObj.obtenirPersones().end()) {
+            int edatPersona = ANY_ACTUAL - it_persona->obtenirAnyNaixement();
+            if (edatPersona == edat && it_persona->obtenirCodiPaisNaixement() == codiNacionalitat) {
+                estudis.push_back(it_persona->obtenirNivellEstudis());
+            }
+            it_persona++;
+        }
+    }
+
+    // Elimina duplicats
+    estudis.sort();
+    estudis.unique();
+
+    return estudis;
+}
+
+
 int Padro::stringToInt(const string &s) {
     if (s.length() == 0) return -1;
     for (char c: s) {
