@@ -257,6 +257,42 @@ map<int, string> Padro::movimentVells() const {
     return resultat;
 }
 
+pair<string, long> Padro::mesJoves(int anyInicial, int anyFinal) const {
+    string districteMAX;
+    long maxIncrement = 0;
+
+    if (existeixAny(anyInicial) && existeixAny(anyFinal)) {
+        // Per cada districte
+        for (int i = 1; i < DISTRICTES.size(); i++) {
+            long jovesInicial = 0;
+            long jovesFinal = 0;
+
+            const vector<Districte>& districtesInicial = _districtes.find(anyInicial)->second;
+            const vector<Districte>& districtesFinal = _districtes.find(anyFinal)->second;
+
+            // Comptem els habitants joves en el anyInicial per al districte actual
+            for (int anyNaixement = anyInicial - 30; anyNaixement <= anyInicial - 20; ++anyNaixement) {
+                jovesInicial += districtesInicial[i].comptaEdatNacionalitat(anyNaixement, -1); // -1 per a qualsevol nacionalitat
+            }
+
+            // Comptem els habitants joves en el anyFinal per al districte actual
+            for (int anyNaixement = anyFinal - 30; anyNaixement <= anyFinal - 20; ++anyNaixement) {
+                jovesFinal += districtesFinal[i].comptaEdatNacionalitat(anyNaixement, -1); // -1 per a qualsevol nacionalitat
+            }
+
+            // Calculem l'increment
+            long increment = jovesFinal - jovesInicial;
+
+            // Actualitzem si és el major increment trobat fins ara
+            if (increment > maxIncrement) {
+                maxIncrement = increment;
+                districteMAX = DISTRICTES[i];
+            }
+        }
+    }
+    return make_pair(districteMAX, maxIncrement);
+}
+
 list<string> Padro::estudisEdat(int any, int districte, int edat, int codiNacionalitat) const {
     list<string> estudis;
 

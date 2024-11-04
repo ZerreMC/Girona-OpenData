@@ -264,11 +264,16 @@ void movimentsVells(const Padro &padro) {
     }
 }
 
-// Falta implementar
 void mesJoves(const Padro &padro) {
     cout << "*****************" << endl;
     cout << "* 13: Més joves *" << endl;
     cout << "*****************" << endl;
+    int anyInicial, anyFinal;
+    cin >> anyInicial >> anyFinal;
+    cout << "Any Inicial: " << anyInicial << "  Any Final: " << anyFinal << endl;
+
+    pair<string, long> mesJoves = padro.mesJoves(anyInicial, anyFinal);
+    cout << mesJoves.first << "\t " << mesJoves.second << endl;
 }
 
 // ERROR AL MOSTRAR CORRECTAMENT A LA PERSONA
