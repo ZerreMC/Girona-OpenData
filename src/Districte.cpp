@@ -59,9 +59,18 @@ set<string, greater<string>> Districte::resumNacionalitats() const {
     return nacionalitats;
 }
 
-// FALTA IMPLEMENTAR
 long Districte::comptaEdatNacionalitat(int anyNaixement, int codiNacionalitat) const {
     long total = 0;
+
+    list<Persona>::const_iterator it_persona = _Persones.begin();
+    while (it_persona != _Persones.end()) {
+        if (it_persona->obtenirAnyNaixement() == anyNaixement) {
+            if (codiNacionalitat == -1 or it_persona->obtenirCodiPaisNaixement() == codiNacionalitat) {
+                total++;
+            }
+        }
+        it_persona++;
+    }
 
     return total;
 }
