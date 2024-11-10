@@ -215,8 +215,8 @@ private:
      * @pre --
      * @post Retorna `true` si totes les dades compleixen els criteris de validació, `false` en cas contrari.
      */
-    bool dadesCorrectes(int any, int districte, int seccio, int codiNivellEstudis, int anyNaixement,
-                        int codiNacionalitat) const;
+    bool dadesCorrectes(int any, int districte, int seccio, int codiNivellEstudis, const string &nivellEstudis, int anyNaixement,
+                        int codiNacionalitat, const string &nomNacionalitat) const;
 
     /**
      * @brief Afegeix les dades al mapa `_districtes`.

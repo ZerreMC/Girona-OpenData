@@ -16,6 +16,10 @@ int Padro::llegirDades(const string &path) {
         getline(f, linia); // Salta la primera linia
         while (getline(f, linia)) {
             vector<string> items = tokens(linia, ',', true);
+            if (items.size() < 18) {
+                // El nombre de paràmetres de la linia han de ser 18
+                cerr << "Falten dades en la linia" << endl;
+            }
 
             if (processarLinia(items)) {
                 llegides++;
@@ -244,7 +248,7 @@ map<int, string> Padro::movimentVells() const {
     map<int, string> resultat;
 
     ResumEdats resum = resumEdat();
-    map<int, vector<double>>::const_iterator it_any = resum.begin();
+    map<int, vector<double> >::const_iterator it_any = resum.begin();
     while (it_any != resum.end()) {
         int any = it_any->first;
         // L'índex del districte més envellit és l'últim en el vector ordenat
@@ -267,17 +271,19 @@ pair<string, long> Padro::mesJoves(int anyInicial, int anyFinal) const {
             long jovesInicial = 0;
             long jovesFinal = 0;
 
-            const vector<Districte>& districtesInicial = _districtes.find(anyInicial)->second;
-            const vector<Districte>& districtesFinal = _districtes.find(anyFinal)->second;
+            const vector<Districte> &districtesInicial = _districtes.find(anyInicial)->second;
+            const vector<Districte> &districtesFinal = _districtes.find(anyFinal)->second;
 
             // Comptem els habitants joves en el anyInicial per al districte actual
             for (int anyNaixement = anyInicial - 30; anyNaixement <= anyInicial - 20; ++anyNaixement) {
-                jovesInicial += districtesInicial[i].comptaEdatNacionalitat(anyNaixement, -1); // -1 per a qualsevol nacionalitat
+                jovesInicial += districtesInicial[i].comptaEdatNacionalitat(anyNaixement, -1);
+                // -1 per a qualsevol nacionalitat
             }
 
             // Comptem els habitants joves en el anyFinal per al districte actual
             for (int anyNaixement = anyFinal - 30; anyNaixement <= anyFinal - 20; ++anyNaixement) {
-                jovesFinal += districtesFinal[i].comptaEdatNacionalitat(anyNaixement, -1); // -1 per a qualsevol nacionalitat
+                jovesFinal += districtesFinal[i].comptaEdatNacionalitat(anyNaixement, -1);
+                // -1 per a qualsevol nacionalitat
             }
 
             // Calculem l'increment
@@ -298,7 +304,7 @@ list<string> Padro::estudisEdat(int any, int districte, int edat, int codiNacion
 
     // Verifica que l'any i districte existeixen en les dades
     if (existeixAny(any) && districte > 0 && districte < _districtes.find(any)->second.size()) {
-        const Districte& districteObj = _districtes.find(any)->second[districte];
+        const Districte &districteObj = _districtes.find(any)->second[districte];
 
         list<Persona>::const_iterator it_persona = districteObj.obtenirPersones().begin();
         while (it_persona != districteObj.obtenirPersones().end()) {
@@ -317,11 +323,16 @@ list<string> Padro::estudisEdat(int any, int districte, int edat, int codiNacion
     return estudis;
 }
 
-
 int Padro::stringToInt(const string &s) {
+    //Pre:--
+    //Post:retorna el valor de s(string) en integer
     if (s.length() == 0) return -1;
+    if (s.find("<20") != string::npos) {
+        cerr << "Advertència: Caràcter especial '<20' detectat, ometent conversió" << endl;
+        return -1;
+    }
     for (char c: s) {
-        if (c < '0' or c > '9') {
+        if (c < '0' || c > '9') {
             cerr << "Error: Carácter no numeric trobat a '" << s << "'" << endl;
             return -1;
         }
@@ -340,7 +351,8 @@ bool Padro::processarLinia(vector<string> &items) {
     int codiNacionalitat = stringToInt(items[11]); // Columna 11: codi_nacionalitat
     string nomNacionalitat = items[12]; // Columna 12: nacionalitat
 
-    if (dadesCorrectes(any, districte, seccio, codiNivellEstudis, anyNaixement, codiNacionalitat)) {
+    if (dadesCorrectes(any, districte, seccio, codiNivellEstudis, nivellEstudis, anyNaixement, codiNacionalitat,
+                       nomNacionalitat)) {
         afegirDades(any, districte, seccio, codiNivellEstudis, nivellEstudis, anyNaixement, codiNacionalitat,
                     nomNacionalitat);
         return true;
@@ -348,13 +360,42 @@ bool Padro::processarLinia(vector<string> &items) {
     return false;
 }
 
-bool Padro::dadesCorrectes(int any, int districte, int seccio, int codiNivellEstudis, int anyNaixement,
-                           int codiNacionalitat) const {
-    return any != -1 and seccio != -1 and districte != -1 and codiNivellEstudis != -1 and anyNaixement != -1 and
-           codiNacionalitat != -1 and
-           districte > 0 and districte <= MIDA;
-}
+bool Padro::dadesCorrectes(int any, int districte, int seccio, int codiNivellEstudis, const string &nivellEstudis,
+                           int anyNaixement,
+                           int codiNacionalitat, const string &nomNacionalitat) const {
+    // Verificacions de conversio de dades
+    if (any == -1 or seccio == -1 or districte == -1 or codiNivellEstudis == -1 or anyNaixement == -1 or
+        codiNacionalitat == -1) {
+        return false;
+    }
 
+    // Comprovació del rang de Districtes
+    if (districte < 1 || districte > MIDA) {
+        return false;
+    }
+
+    // Verificació que l'any de naixement sigui acceptable
+    if (anyNaixement > any or anyNaixement < 1900) {
+        return false;
+    }
+
+    // Verificació de valors negatius en camps rellevants
+    if (codiNivellEstudis < 0 || codiNacionalitat < 0) {
+        return false;
+    }
+
+    if (nivellEstudis == "<20") {
+        cerr << "Error: El nivell d'estudis conté el patró no vàlid '<20': '" << nivellEstudis << "'" << endl;
+        return false;
+    }
+
+    if (nomNacionalitat == "<20") {
+        cerr << "Error: El nom de la nacionalitat conté el patró no vàlid '<20': '" << nomNacionalitat << "'" << endl;
+        return false;
+    }
+
+    return true;
+}
 
 void Padro::afegirDades(int any, int districte, int seccio, int codiNivellEstudis, const string &nivellEstudis,
                         int anyNaixement, int codiNacionalitat, const string &nomNacionalitat) {
