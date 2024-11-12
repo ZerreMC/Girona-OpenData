@@ -220,7 +220,7 @@ ResumEdats Padro::resumEdat() const {
 
         // Recorre cada districte en l'any actual
         for (int i = 1; i < it_any->second.size(); i++) {
-            double promigEdat = it_any->second[i].obtenirEdatMitjana();
+            double promigEdat = it_any->second[i].obtenirEdatMitjana(it_any->first);
             edatsPromig.push_back(make_pair(promigEdat, i));
         }
 
@@ -303,13 +303,13 @@ list<string> Padro::estudisEdat(int any, int districte, int edat, int codiNacion
     list<string> estudis;
 
     // Verifica que l'any i districte existeixen en les dades
-    if (existeixAny(any) && districte > 0 && districte < _districtes.find(any)->second.size()) {
+    if (existeixAny(any) and districte > 0 and districte < _districtes.find(any)->second.size()) {
         const Districte &districteObj = _districtes.find(any)->second[districte];
 
         list<Persona>::const_iterator it_persona = districteObj.obtenirPersones().begin();
         while (it_persona != districteObj.obtenirPersones().end()) {
-            int edatPersona = ANY_ACTUAL - it_persona->obtenirAnyNaixement();
-            if (edatPersona == edat && it_persona->obtenirCodiPaisNaixement() == codiNacionalitat) {
+            int edatPersona = any - it_persona->obtenirAnyNaixement();
+                if (edatPersona == edat && it_persona->obtenirCodiPaisNaixement() == codiNacionalitat) {
                 estudis.push_back(it_persona->obtenirNivellEstudis());
             }
             it_persona++;
@@ -384,6 +384,10 @@ bool Padro::dadesCorrectes(int any, int districte, int seccio, int codiNivellEst
         return false;
     }
 
+    if (nivellEstudis.empty() or nomNacionalitat.empty()) {
+        cerr << "Error: Hi ha camps de text buits" << endl;
+        return false;
+    }
     if (nivellEstudis == "<20") {
         cerr << "Error: El nivell d'estudis conté el patró no vàlid '<20': '" << nivellEstudis << "'" << endl;
         return false;
@@ -415,7 +419,10 @@ void Padro::afegirDades(int any, int districte, int seccio, int codiNivellEstudi
     _estudis[any].insert(nivellEstudis);
 
     // Calcula edat i actualiza _edats
-    int edat = ANY_ACTUAL - anyNaixement;
-    _edats[any].resize(MIDA);
+    int edat = any - anyNaixement;
+
+    if (_edats.find(any) == _edats.end()) {
+        _edats[any].resize(MIDA);
+    }
     _edats[any][districte] += edat;
 }

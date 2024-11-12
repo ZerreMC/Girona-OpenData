@@ -17,7 +17,6 @@
 #include "Persona.h"
 
 using namespace std;
-static const int ANY_ACTUAL = 2024;
 ///< Constant que representa l'any actual per a càlculs relacionats amb l'edat dels habitants.
 
 class Districte {
@@ -61,7 +60,7 @@ public:
      * @pre  --
      * @post Retorna l'edat mitjana calculada dels habitants del Districte.
      */
-    double obtenirEdatMitjana() const;
+    double obtenirEdatMitjana(int any) const;
 
     /**
      * @brief Obté un conjunt amb els diferents tipus d'estudis dels habitants del Districte.

@@ -25,8 +25,8 @@ void existeixAny(const Padro &padro) {
     cout << "********************" << endl;
 
     int any;
-    cout << "Any:";
     cin >> any;
+    cout << "Any:" << any << endl;
     if (padro.existeixAny(any))
         cout << "Any existent" << endl;
     else
@@ -221,7 +221,6 @@ void movimentsUnaComunitat(const Padro &padro) {
     }
 }
 
-// TE UN ERROR DE CALCUL EN EL PROMIG
 void resumEdats(const Padro &padro) {
     cout << "*********************" << endl;
     cout << "* 11: Resum d'edats *" << endl;

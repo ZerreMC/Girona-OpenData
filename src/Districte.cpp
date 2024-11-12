@@ -24,11 +24,11 @@ long Districte::obtenirNumHabitants() const {
     return _Persones.size();
 }
 
-double Districte::obtenirEdatMitjana() const {
+double Districte::obtenirEdatMitjana(int any) const {
     double sumEdat = 0.0;
     list<Persona>::const_iterator it = _Persones.begin();
     while (it != _Persones.end()) {
-        int edat = ANY_ACTUAL - it->obtenirAnyNaixement();
+        int edat = any - it->obtenirAnyNaixement();
         sumEdat += edat;
         it++;
     }
