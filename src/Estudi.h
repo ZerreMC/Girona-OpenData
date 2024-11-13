@@ -11,6 +11,8 @@ using namespace std;
 
 class Estudi {
 public:
+    Estudi() = default;
+
     /**
      * @brief Constructor que inicialitza un objecte Estudi amb el codi i nom especificats.
      *

@@ -7,6 +7,9 @@
 
 #include <string>
 
+#include "Estudi.h"
+#include "Nacionalitat.h"
+
 using namespace std;
 
 class Persona {
@@ -22,8 +25,7 @@ public:
      * @pre  --
      * @post Crea una Persona amb els atributs indicats assignats als atributs corresponents.
      */
-    Persona(int codiNivellEstudis, const string &nivellEstudis, int anyNaixement, int codiPaisNaixement,
-            const string &paisNaixement);
+    Persona(Estudi estudi, int anyNaixement, Nacionalitat nacionalitat);
 
     /**
      * @brief Obté l'any de naixement de la persona.
@@ -43,6 +45,8 @@ public:
      */
     string obtenirNivellEstudis() const;
 
+    int obtenirCodiEstudi() const;
+
     /**
      * @brief Obté el codi del país de naixement de la persona.
      *
@@ -53,11 +57,9 @@ public:
     int obtenirCodiPaisNaixement() const;
 
 private:
-    int _codiNivellEstudis; ///< Codi del nivell d'estudis de la persona.
+    Estudi _estudi;
+    Nacionalitat _nacionalitat;
     int _anyNaixement; ///< Any de naixement de la persona.
-    int _codiPaisNaixement; ///< Codi del país de naixement de la persona.
-    string _nivellEstudis; ///< Nom del nivell d'estudis de la persona.
-    string _paisNaixement; ///< Nom del país de naixement de la persona.
 };
 
 #endif // PERSONA_H

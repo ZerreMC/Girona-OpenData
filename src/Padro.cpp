@@ -118,11 +118,11 @@ ResumNivellEstudis Padro::resumNivellEstudis() const {
             }
         }
 
-        // Asigna los símbolos de máximo y mínimo
+        // Assigna els símbols del màxim i mínim
         if (indexMax != -1) {
             nivellsPromig[indexMax].first = '+';
         }
-        if (indexMin != -1 && indexMin != indexMax) {
+        if (indexMin != -1 and indexMin != indexMax) {
             nivellsPromig[indexMin].first = '-';
         }
 

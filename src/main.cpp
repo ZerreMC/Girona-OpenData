@@ -156,7 +156,6 @@ void nEstudisDistricte(const Padro &padro) {
     }
 }
 
-// TE UN ERROR DE CALCUL PROMIG
 void resumNivellEstudis(const Padro &padro) {
     cout << "******************************" << endl;
     cout << "* 08: Resum nivell d'estudis *" << endl;
@@ -167,22 +166,14 @@ void resumNivellEstudis(const Padro &padro) {
     map<int, vector<pair<char, double> > >::const_iterator it = resum.begin();
     while (it != resum.end()) {
         int any = it->first;
-        cout << any << ":" << endl;
+        cout << any << ": " << endl;
 
         const vector<pair<char, double> > &districtes = it->second;
         for (int i = 1; i < districtes.size(); i++) {
             char simbol = districtes[i].first;
             double promig = districtes[i].second;
 
-            // Imprimir el símbol només si és rellevant
-            if (simbol == '+' or simbol == '-') {
-                cout << "\t   " << simbol << " ";
-            } else {
-                cout << "\t\t ";
-            }
-
-            // Imprimir el nom del districte i el promig
-            cout << left << setw(35) << DISTRICTES[i]
+            cout << "       " << simbol << " " << left << setw(32) << DISTRICTES[i]
                     << "Promig Estudis: " << setw(10) << right << fixed << setprecision(2) << promig << endl;
         }
         it++;
