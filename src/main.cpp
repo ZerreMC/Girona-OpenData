@@ -10,9 +10,9 @@
 using namespace std;
 
 void llegir_dades(Padro &padro) {
-    cout << "*******************" << endl;
-    cout << "* 1: Llegir dades *" << endl;
-    cout << "*******************" << endl;
+    cout << "********************" << endl;
+    cout << "* 01: Llegir dades *" << endl;
+    cout << "********************" << endl;
 
     string path;
     cin >> path;
@@ -48,7 +48,7 @@ void obtenirNHabitants(const Padro &padro) {
         promig += it->second;
         n++, it++;
     }
-    cout << "PROMIG: " << fixed << setprecision(2) << promig / n << endl;
+    cout << "PROMIG : " << fixed << setprecision(2) << promig / n << endl;
 }
 
 void nHabitantsUnAny(const Padro &padro) {
@@ -57,9 +57,13 @@ void nHabitantsUnAny(const Padro &padro) {
     cout << "*******************************************" << endl;
 
     int any;
-    cout << "Any:";
     cin >> any;
+    while (!padro.existeixAny(any)) {
+        cout << "ERROR any " << any << " inexistent" << endl;
+        cin >> any;
+    }
 
+    cout << "Any:" << any << endl;
     vector<long> habitants = padro.obtenirNumHabitantsPerDistricte(any);
     int total = 0;
     for (int i = 1; i < habitants.size(); i++) {
@@ -75,20 +79,20 @@ void nHabitantsUnAnyUnDistricte(const Padro &padro) {
     cout << "*******************************************************" << endl;
 
     int any, districte;
-    map<int, long> habitants;
 
     // Bucle per validar l'any
     cin >> any;
     while (!padro.existeixAny(any)) {
-        cerr << "ERROR any " << any << " inexistent" << endl;
+        cout << "ERROR any " << any << " inexistent" << endl;
         cin >> any;
     }
 
     // Bucle per validar el districte
     cin >> districte;
+    map<int, long> habitants;
     habitants = padro.obtenirNumHabitantsPerSeccio(any, districte);
     while (habitants.empty()) {
-        cerr << "ERROR districte " << districte << " inexistent" << endl;
+        cout << "ERROR districte " << districte << "inexistent" << endl;
         cin >> districte;
         habitants = padro.obtenirNumHabitantsPerSeccio(any, districte);
     }
@@ -141,8 +145,8 @@ void nEstudisDistricte(const Padro &padro) {
     cout << "* 07: Nombre d'estudis per districte *" << endl;
     cout << "**************************************" << endl;
     int districte;
-    cout << "Districte:";
     cin >> districte;
+    cout << "Districte:" << districte << endl;
 
     map<int, int> habitants = padro.nombreEstudisDistricte(districte);
     map<int, int>::iterator it = habitants.begin();
@@ -152,7 +156,7 @@ void nEstudisDistricte(const Padro &padro) {
     }
 }
 
-// TE UN ERROR DE CALCUL EN EL PROMIG
+// TE UN ERROR DE CALCUL PROMIG
 void resumNivellEstudis(const Padro &padro) {
     cout << "******************************" << endl;
     cout << "* 08: Resum nivell d'estudis *" << endl;
@@ -165,19 +169,27 @@ void resumNivellEstudis(const Padro &padro) {
         int any = it->first;
         cout << any << ":" << endl;
 
-        const vector<pair<char, double> > &distritos = it->second;
-        for (int i = 1; i < distritos.size(); i++) {
-            char simbol = distritos[i].first;
-            double promig = distritos[i].second;
+        const vector<pair<char, double> > &districtes = it->second;
+        for (int i = 1; i < districtes.size(); i++) {
+            char simbol = districtes[i].first;
+            double promig = districtes[i].second;
 
-            cout << "\t   " << simbol << " ";
-            cout << DISTRICTES[i] << setw(32) << right << "Promig Estudis: " << setw(10) << fixed << setprecision(2) <<
-                    promig << endl;
+            // Imprimir el símbol només si és rellevant
+            if (simbol == '+' or simbol == '-') {
+                cout << "\t   " << simbol << " ";
+            } else {
+                cout << "\t\t ";
+            }
+
+            // Imprimir el nom del districte i el promig
+            cout << left << setw(35) << DISTRICTES[i]
+                    << "Promig Estudis: " << setw(10) << right << fixed << setprecision(2) << promig << endl;
         }
         it++;
     }
 }
 
+// FALTA ACABAR D'ORDENAR BE
 void resumNacionalitats(const Padro &padro) {
     cout << "******************************" << endl;
     cout << "* 09: Resum de nacionalitats *" << endl;
@@ -193,18 +205,20 @@ void resumNacionalitats(const Padro &padro) {
         multimap<long, Nacionalitat, greater<long> >::const_iterator it_Nacio = it_Any->second.begin();
         // Recorre cada nacionalitat d'un any
         while (it_Nacio != it_Any->second.end()) {
-            cout << "\t   " << left << setw(30) << it_Nacio->second.obtenirNom()
-                    << "(" << it_Nacio->second.obtenirId() << ") :";
-            cout << right << setw(10) << it_Nacio->first << endl;
+            cout << "\t   " << left << setw(30) << (it_Nacio->second.obtenirNom() + " (" + to_string(
+                                                        it_Nacio->second.obtenirId()) + ")");
+            cout << right << ":" << setw(11) << it_Nacio->first << endl;
+
             it_Nacio++;
         }
         it_Any++;
     }
 }
 
+
 void movimentsUnaComunitat(const Padro &padro) {
     cout << "*********************************" << endl;
-    cout << "* 10: Movimente d'una comunitat *" << endl;
+    cout << "* 10: Moviments d'una comunitat *" << endl;
     cout << "*********************************" << endl;
 
     int codiNacionalitat;
@@ -221,6 +235,7 @@ void movimentsUnaComunitat(const Padro &padro) {
     }
 }
 
+// Falta cambiar els noms dels districtes
 void resumEdats(const Padro &padro) {
     cout << "*********************" << endl;
     cout << "* 11: Resum d'edats *" << endl;
@@ -231,20 +246,20 @@ void resumEdats(const Padro &padro) {
 
     while (it_any != resum.end()) {
         int any = it_any->first;
-        cout << any << ":" << endl;
+        cout << any << ": " << endl;
 
         const vector<double> &edatsPromig = it_any->second;
 
         for (int i = 0; i < edatsPromig.size(); ++i) {
             string nomDistricte = DISTRICTES[i + 1];
-            cout << "       " << setw(30) << left << nomDistricte
+            cout << "       " << setw(32) << left << nomDistricte
                     << "Promig Edat: " << setw(10) << right << fixed << setprecision(2) << edatsPromig[i] << endl;
         }
         it_any++;
     }
 }
 
-// TE UN ERROR DE CALCUL DE VELLS
+// Mostra malament els noms
 void movimentsVells(const Padro &padro) {
     cout << "****************************" << endl;
     cout << "* 12: Moviments dels vells *" << endl;
@@ -264,21 +279,20 @@ void movimentsVells(const Padro &padro) {
 }
 
 void mesJoves(const Padro &padro) {
-    cout << "*****************" << endl;
+    cout << "******************" << endl;
     cout << "* 13: Més joves *" << endl;
-    cout << "*****************" << endl;
+    cout << "******************" << endl;
     int anyInicial, anyFinal;
     cin >> anyInicial >> anyFinal;
-    cout << "Any Inicial: " << anyInicial << "  Any Final: " << anyFinal << endl;
+    cout << "Any Inicial: " << anyInicial << "  AnyFinal:" << anyFinal << endl;
 
     pair<string, long> mesJoves = padro.mesJoves(anyInicial, anyFinal);
-    cout << mesJoves.first << "\t " << mesJoves.second << endl;
+    cout << left << setw(29) << mesJoves.first << right << mesJoves.second << endl;
 }
 
-// ERROR AL MOSTRAR CORRECTAMENT A LA PERSONA
 void estudisAnyDistricteEdatNacionalitat(const Padro &padro) {
     cout << "********************************************" << endl;
-    cout << "* 14: Estudis any, districte, edat i nació *" << endl;
+    cout << "* 14: Estudis any,districte, edat i nació *" << endl;
     cout << "********************************************" << endl;
 
     int any, districte, edat, codiNacionalitat;
@@ -332,8 +346,6 @@ int main() {
             mesJoves(padro);
         } else if (n == 14) {
             estudisAnyDistricteEdatNacionalitat(padro);
-        } else {
-            cout << "Tria una opció válida del menú d'opcions" << endl;
         }
     } while (n != 0);
 
