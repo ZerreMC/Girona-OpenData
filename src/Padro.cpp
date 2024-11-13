@@ -300,27 +300,28 @@ pair<string, long> Padro::mesJoves(int anyInicial, int anyFinal) const {
 }
 
 list<string> Padro::estudisEdat(int any, int districte, int edat, int codiNacionalitat) const {
-    list<string> estudis;
+    list<string> resultat;
+    if(edat > 0 and codiNacionalitat > 0) {
+        set<string> estudisUnics;  // Utilitzem un set per ordenar i eliminar duplicats durant la cerca
 
-    // Verifica que l'any i districte existeixen en les dades
-    if (existeixAny(any) and districte > 0 and districte < _districtes.find(any)->second.size()) {
-        const Districte &districteObj = _districtes.find(any)->second[districte];
+        map<int, vector<Districte>>::const_iterator it_any = _districtes.find(any);
+        // Verifica que l'any i districte existeixen en les dades
+        if (it_any != _districtes.end() and districte > 0 and districte < it_any->second.size()) {
+            const Districte &districteObj = it_any->second[districte];
 
-        list<Persona>::const_iterator it_persona = districteObj.obtenirPersones().begin();
-        while (it_persona != districteObj.obtenirPersones().end()) {
-            int edatPersona = any - it_persona->obtenirAnyNaixement();
-                if (edatPersona == edat && it_persona->obtenirCodiPaisNaixement() == codiNacionalitat) {
-                estudis.push_back(it_persona->obtenirNivellEstudis());
+            for (const Persona &persona : districteObj.obtenirPersones()) {
+                int edatPersona = it_any->first - persona.obtenirAnyNaixement();
+                if (edatPersona == edat and persona.obtenirCodiPaisNaixement() == codiNacionalitat) {
+                    estudisUnics.insert(persona.obtenirNivellEstudis());
+                }
             }
-            it_persona++;
         }
+
+        // Passem el set a la llista a retornar
+        resultat = list<string>(estudisUnics.begin(), estudisUnics.end());
     }
 
-    // Elimina duplicats
-    estudis.sort();
-    estudis.unique();
-
-    return estudis;
+    return resultat;
 }
 
 int Padro::stringToInt(const string &s) {
