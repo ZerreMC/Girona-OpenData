@@ -152,7 +152,7 @@ ResumNacionalitats Padro::resumNacionalitats() const {
     map<int, vector<Districte> >::const_iterator it_any = _districtes.begin();
     while (it_any != _districtes.end()) {
         int any = it_any->first;
-        unordered_map<Nacionalitat, long> nacionalitatsPerAny;
+        map<Nacionalitat, long> nacionalitatsPerAny;
 
         // Recorre cada districte en l'any actual
         for (int i = 1; i < it_any->second.size(); i++) {
