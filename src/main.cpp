@@ -180,7 +180,6 @@ void resumNivellEstudis(const Padro &padro) {
     }
 }
 
-// FALTA ACABAR D'ORDENAR BE PER NACIONALITAT DESPRES DE LA QUANTITAT
 void resumNacionalitats(const Padro &padro) {
     cout << "******************************" << endl;
     cout << "* 09: Resum de nacionalitats *" << endl;
