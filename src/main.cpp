@@ -5,6 +5,7 @@
 #include <fstream>
 #include <iomanip>
 #include <iostream>
+#include <limits>
 #include "Padro.h"
 
 using namespace std;
@@ -14,15 +15,38 @@ using namespace std;
  * @param padro Referència a l'objecte Padro per emmagatzemar les dades.
  * @pre El fitxer indicat per l'usuari ha de ser accessible i tenir el format correcte.
  * @post Es llegeixen les dades del fitxer i es mostren les línies llegides.
+ * @return Retorna el nombre de línies llegides.
  */
-void llegir_dades(Padro &padro) {
+int llegir_dades(Padro &padro) {
     cout << "********************" << endl;
     cout << "* 01: Llegir dades *" << endl;
     cout << "********************" << endl;
 
     string path;
     cin >> path;
-    cout << "Numero de linies: " << padro.llegirDades(path) << endl;
+    int numLinies = padro.llegirDades(path);
+    cout << "Numero de linies: " << numLinies << endl;
+    return numLinies;
+}
+
+/**
+ * @brief Obté un número enter positiu de l'entrada de l'usuari.
+ * @param entrada Referència a l'enter on es desarà l'input de l'usuari.
+ * @post L'input introduït serà un enter positiu vàlid.
+ */
+void obtenirEntradaValida(int &entrada) {
+    bool valida = false;
+    while (!valida) {
+        cin >> entrada;
+        // Comprova si l'entrada és vàlida o és un número negatiu
+        if (cin.fail() or entrada < 0) {
+            cin.clear(); // Neteja l'estat d'error de cin
+            cin.ignore(numeric_limits<streamsize>::max(), '\n'); // Descartar l'entrada incorrecta del buffer
+            cout << "L'entrada no és vàlida, ha de ser un nombre enter positiu." << endl;
+        } else {
+            valida = true; // L'entrada és vàlida
+        }
+    }
 }
 
 /**
@@ -37,7 +61,7 @@ void existeixAny(const Padro &padro) {
     cout << "********************" << endl;
 
     int any;
-    cin >> any;
+    obtenirEntradaValida(any);
     cout << "Any:" << any << endl;
     if (padro.existeixAny(any))
         cout << "Any existent" << endl;
@@ -81,10 +105,10 @@ void nHabitantsUnAny(const Padro &padro) {
     cout << "*******************************************" << endl;
 
     int any;
-    cin >> any;
+    obtenirEntradaValida(any);
     while (!padro.existeixAny(any)) {
         cout << "ERROR any " << any << " inexistent" << endl;
-        cin >> any;
+        obtenirEntradaValida(any);
     }
 
     cout << "Any:" << any << endl;
@@ -111,19 +135,19 @@ void nHabitantsUnAnyUnDistricte(const Padro &padro) {
     int any, districte;
 
     // Bucle per validar l'any
-    cin >> any;
+    obtenirEntradaValida(any);
     while (!padro.existeixAny(any)) {
         cout << "ERROR any " << any << " inexistent" << endl;
-        cin >> any;
+        obtenirEntradaValida(any);
     }
 
     // Bucle per validar el districte
-    cin >> districte;
+    obtenirEntradaValida(districte);
     map<int, long> habitants;
     habitants = padro.obtenirNumHabitantsPerSeccio(any, districte);
     while (habitants.empty()) {
         cout << "ERROR districte " << districte << "inexistent" << endl;
-        cin >> districte;
+        obtenirEntradaValida(districte);
         habitants = padro.obtenirNumHabitantsPerSeccio(any, districte);
     }
 
@@ -187,7 +211,7 @@ void nEstudisDistricte(const Padro &padro) {
     cout << "* 07: Nombre d'estudis per districte *" << endl;
     cout << "**************************************" << endl;
     int districte;
-    cin >> districte;
+    obtenirEntradaValida(districte);
     cout << "Districte:" << districte << endl;
 
     map<int, int> habitants = padro.nombreEstudisDistricte(districte);
@@ -271,7 +295,7 @@ void movimentsUnaComunitat(const Padro &padro) {
     cout << "*********************************" << endl;
 
     int codiNacionalitat;
-    cin >> codiNacionalitat;
+    obtenirEntradaValida(codiNacionalitat);
     cout << "Codi Nacionalitat:" << codiNacionalitat << endl;
 
     map<int, string> resumHabitants = padro.movimentsComunitat(codiNacionalitat);
@@ -349,7 +373,8 @@ void mesJoves(const Padro &padro) {
     cout << "* 13: Més joves *" << endl;
     cout << "******************" << endl;
     int anyInicial, anyFinal;
-    cin >> anyInicial >> anyFinal;
+    obtenirEntradaValida(anyInicial);
+    obtenirEntradaValida(anyFinal);
     cout << "Any Inicial: " << anyInicial << "  AnyFinal:" << anyFinal << endl;
 
     pair<string, long> mesJoves = padro.mesJoves(anyInicial, anyFinal);
@@ -368,10 +393,10 @@ void estudisAnyDistricteEdatNacionalitat(const Padro &padro) {
     cout << "********************************************" << endl;
 
     int any, districte, edat, codiNacionalitat;
-    cin >> any;
-    cin >> districte;
-    cin >> edat;
-    cin >> codiNacionalitat;
+    obtenirEntradaValida(any);
+    obtenirEntradaValida(districte);
+    obtenirEntradaValida(edat);
+    obtenirEntradaValida(codiNacionalitat);
     cout << "Any: " << any << "  Districte:" << districte << "  Edat:" << edat << "  Codi Nacionalitat:" <<
             codiNacionalitat << endl;
 
@@ -388,42 +413,41 @@ void estudisAnyDistricteEdatNacionalitat(const Padro &padro) {
  * @brief Punt d'entrada principal del programa.
  * @return Retorna 0 quan s'executa correctament.
  * @pre No té precondicions.
- * @post Permet a l'usuari triar diverses operacions sobre l'objecte Padró.
+ * @post Permet a l'usuari triar diverses operacions sobre l'objecte Padró si hi ha dades.
  */
 int main() {
     Padro padro;
 
     int n = 0;
+    bool dadesLlegides = false;
+
     do {
         cin >> n;
         if (n == 1) {
-            llegir_dades(padro);
-        } else if (n == 2) {
-            existeixAny(padro);
-        } else if (n == 3) {
-            obtenirNHabitants(padro);
-        } else if (n == 4) {
-            nHabitantsUnAny(padro);
-        } else if (n == 5) {
-            nHabitantsUnAnyUnDistricte(padro);
-        } else if (n == 6) {
-            mostrarResumEstudis(padro);
-        } else if (n == 7) {
-            nEstudisDistricte(padro);
-        } else if (n == 8) {
-            resumNivellEstudis(padro);
-        } else if (n == 9) {
-            resumNacionalitats(padro);
-        } else if (n == 10) {
-            movimentsUnaComunitat(padro);
-        } else if (n == 11) {
-            resumEdats(padro);
-        } else if (n == 12) {
-            movimentsVells(padro);
-        } else if (n == 13) {
-            mesJoves(padro);
-        } else if (n == 14) {
-            estudisAnyDistricteEdatNacionalitat(padro);
+            int numLinies = llegir_dades(padro);
+            dadesLlegides = (numLinies > 0);// Comprova si s'han llegit dades
+        } else if (n == 0) {
+            // Opció de sortida, no mostrar el missatge d'error
+            break;
+        } else if (dadesLlegides) {
+            switch (n) {
+                case 2: existeixAny(padro); break;
+                case 3: obtenirNHabitants(padro); break;
+                case 4: nHabitantsUnAny(padro); break;
+                case 5: nHabitantsUnAnyUnDistricte(padro); break;
+                case 6: mostrarResumEstudis(padro); break;
+                case 7: nEstudisDistricte(padro); break;
+                case 8: resumNivellEstudis(padro); break;
+                case 9: resumNacionalitats(padro); break;
+                case 10: movimentsUnaComunitat(padro); break;
+                case 11: resumEdats(padro); break;
+                case 12: movimentsVells(padro); break;
+                case 13: mesJoves(padro); break;
+                case 14: estudisAnyDistricteEdatNacionalitat(padro); break;
+                default: break;
+            }
+        } else {
+             cout << "Primer has de llegir dades des d'un fitxer amb l'opció 1." << endl;
         }
     } while (n != 0);
 
