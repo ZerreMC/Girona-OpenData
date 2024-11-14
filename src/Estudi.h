@@ -9,6 +9,10 @@
 
 using namespace std;
 
+/**
+ * @class Estudi
+ * @brief Representa un estudi amb un codi identificador i un nom.
+ */
 class Estudi {
 public:
     Estudi() = default;
@@ -51,8 +55,24 @@ public:
      */
     bool operator==(const Estudi &estudi) const;
 
+    /**
+     * @brief Sobrecàrrega de l'operador major que per comparar dos objectes Estudi.
+     *
+     * @param estudi Objecte Estudi amb el qual es vol comparar.
+     * @return `true` si el codi de l'objecte actual és més gran que el de \p estudi, `false` en cas contrari.
+     * @pre  --
+     * @post Retorna `true` si el codi de l'objecte actual és major, `false` en cas contrari.
+     */
     bool operator>(const Estudi &estudi) const;
 
+    /**
+     * @brief Sobrecàrrega de l'operador menor que per comparar dos objectes Estudi.
+     *
+     * @param estudi Objecte Estudi amb el qual es vol comparar.
+     * @return `true` si el codi de l'objecte actual és més petit que el de \p estudi, `false` en cas contrari.
+     * @pre  --
+     * @post Retorna `true` si el codi de l'objecte actual és menor, `false` en cas contrari.
+     */
     bool operator<(const Estudi &estudi) const;
 
 private:

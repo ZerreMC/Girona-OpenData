@@ -71,12 +71,12 @@ map<int, long> Padro::obtenirNumHabitantsPerSeccio(int any, int districte) const
 
 ResumEstudis Padro::resumEstudis() const {
     ResumEstudis resumEstudis;
-    map<int, vector<Districte>>::const_iterator itAny = _districtes.begin();
+    map<int, vector<Districte> >::const_iterator itAny = _districtes.begin();
     while (itAny != _districtes.end()) {
         const vector<Districte> &districtesAny = itAny->second;
         for (int i = 1; i < districtesAny.size(); i++) {
-            set<string, greater<string>> estudisDistricte = districtesAny[i].resumEstudis();
-            for (const auto& estudi : estudisDistricte) {
+            set<string, greater<string> > estudisDistricte = districtesAny[i].resumEstudis();
+            for (const auto &estudi: estudisDistricte) {
                 resumEstudis[itAny->first].insert(estudi);
             }
         }
@@ -183,7 +183,7 @@ ResumNacionalitats Padro::resumNacionalitats() const {
 map<int, string> Padro::movimentsComunitat(int codiNacionalitat) const {
     map<int, string> resultat;
 
-    map<int, vector<Districte>>::const_iterator it_any = _districtes.begin();
+    map<int, vector<Districte> >::const_iterator it_any = _districtes.begin();
     // Recorre cada any
     while (it_any != _districtes.end()) {
         int any = it_any->first;
@@ -225,10 +225,10 @@ map<int, string> Padro::movimentsComunitat(int codiNacionalitat) const {
 ResumEdats Padro::resumEdat() const {
     ResumEdats resultat;
 
-    map<int, vector<Districte>>::const_iterator it_any = _districtes.begin();
+    map<int, vector<Districte> >::const_iterator it_any = _districtes.begin();
     while (it_any != _districtes.end()) {
         int any = it_any->first;
-        set<pair<double, string>> edatsOrdenades;
+        set<pair<double, string> > edatsOrdenades;
 
         for (int i = 1; i < it_any->second.size(); i++) {
             double promigEdat = it_any->second[i].obtenirEdatMitjana(any);
@@ -245,7 +245,7 @@ map<int, string> Padro::movimentVells() const {
     map<int, string> resultat;
     ResumEdats resum = resumEdat();
 
-    for (const auto& any : resum) {
+    for (const auto &any: resum) {
         if (!any.second.empty()) {
             auto it_vell = prev(any.second.end());
             resultat[any.first] = it_vell->second;
@@ -295,15 +295,15 @@ pair<string, long> Padro::mesJoves(int anyInicial, int anyFinal) const {
 
 list<string> Padro::estudisEdat(int any, int districte, int edat, int codiNacionalitat) const {
     list<string> resultat;
-    if(edat > 0 and codiNacionalitat > 0) {
-        set<string> estudisUnics;  // Utilitzem un set per ordenar i eliminar duplicats durant la cerca
+    if (edat > 0 and codiNacionalitat > 0) {
+        set<string> estudisUnics; // Utilitzem un set per ordenar i eliminar duplicats durant la cerca
 
-        map<int, vector<Districte>>::const_iterator it_any = _districtes.find(any);
+        map<int, vector<Districte> >::const_iterator it_any = _districtes.find(any);
         // Verifica que l'any i districte existeixen en les dades
         if (it_any != _districtes.end() and districte > 0 and districte < it_any->second.size()) {
             const Districte &districteObj = it_any->second[districte];
 
-            for (const Persona &persona : districteObj.obtenirPersones()) {
+            for (const Persona &persona: districteObj.obtenirPersones()) {
                 int edatPersona = it_any->first - persona.obtenirAnyNaixement();
                 if (edatPersona == edat and persona.obtenirCodiPaisNaixement() == codiNacionalitat) {
                     estudisUnics.insert(persona.obtenirNivellEstudis());

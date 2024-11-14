@@ -17,8 +17,11 @@
 #include "Persona.h"
 
 using namespace std;
-///< Constant que representa l'any actual per a càlculs relacionats amb l'edat dels habitants.
 
+/**
+ * @class Districte
+ * @brief Representa un districte que conté informació sobre els habitants, estudis, seccions i nacionalitats.
+ */
 class Districte {
 public:
     /**
@@ -27,7 +30,7 @@ public:
      * @pre  --
      * @post Inicialitza el Districte amb les estructures de dades buides.
      */
-    Districte() = default; ///< serveix per ressoldre l'error de "undefined reference"
+    Districte() = default; ///< Serveix per resoldre l'error de "undefined reference".
 
     /**
      * @brief Afegeix un habitant a les estructures de dades del Districte.
@@ -56,6 +59,7 @@ public:
     /**
      * @brief Calcula l'edat mitjana dels habitants del Districte.
      *
+     * @param any Any de referència per al càlcul de l'edat.
      * @return Edat mitjana dels habitants del Districte.
      * @pre  --
      * @post Retorna l'edat mitjana calculada dels habitants del Districte.
@@ -82,22 +86,56 @@ public:
      */
     long comptaEdatNacionalitat(int anyNaixement, int codiNacionalitat) const;
 
+    /**
+     * @brief Obté un mapa amb el nombre d'habitants per secció al Districte.
+     *
+     * @return Mapa amb la clau com el número de secció i el valor com el nombre d'habitants.
+     * @pre  --
+     * @post Retorna el mapa amb el nombre d'habitants per cada secció.
+     */
     map<int, long> obtenirHabitantsPerSeccio() const;
 
+    /**
+     * @brief Obté el nombre de nivells d'estudis diferents al Districte.
+     *
+     * @return Nombre de nivells d'estudis diferents.
+     * @pre  --
+     * @post Retorna el nombre de nivells d'estudis registrats al Districte.
+     */
     int obtenirNivellEstudis() const;
 
+    /**
+     * @brief Obté la suma total dels codis de nivells d'estudis dels habitants del Districte.
+     *
+     * @return Suma total dels codis dels nivells d'estudis.
+     * @pre  --
+     * @post Retorna la suma total dels codis dels nivells d'estudis.
+     */
     long obtenirTotalNivellEstudis() const;
 
+    /**
+     * @brief Obté una taula amb el nombre d'habitants per nacionalitat.
+     *
+     * @return Un mapa no ordenat amb els objectes Nacionalitat com a clau i el nombre d'habitants com a valor.
+     * @pre  --
+     * @post Retorna la taula d'habitants per nacionalitat.
+     */
     unordered_map<Nacionalitat, long> obtenirHabitantsPerNacio() const;
 
+    /**
+     * @brief Obté la llista de persones registrades al Districte.
+     *
+     * @return Llista d'objectes Persona.
+     * @pre  --
+     * @post Retorna la llista de persones registrades al Districte.
+     */
     list<Persona> obtenirPersones() const;
 
 private:
     list<Persona> _Persones; ///< Conjunt de persones que resideixen al districte.
-    set<Estudi, greater<Estudi>> _Estudis; ///< Conjunt d'estudis dels habitants del districte per evitar duplicats.
-
-    map<int, long> _habitantsPerSeccio;
-    unordered_map<Nacionalitat, long> _habitantsPerNacio; ///< Estructura de dades que conta les persones que
+    set<Estudi, greater<Estudi> > _Estudis; ///< Conjunt d'estudis dels habitants del districte per evitar duplicats.
+    map<int, long> _habitantsPerSeccio; ///< Mapa amb el nombre d'habitants per secció.
+    unordered_map<Nacionalitat, long> _habitantsPerNacio; ///< Mapa amb el nombre d'habitants per nacionalitat.
 };
 
 #endif // DISTRICTE_H

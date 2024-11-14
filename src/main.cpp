@@ -9,6 +9,12 @@
 
 using namespace std;
 
+/**
+ * @brief Llegeix les dades des d'un fitxer CSV i mostra el nombre de línies llegides.
+ * @param padro Referència a l'objecte Padro per emmagatzemar les dades.
+ * @pre El fitxer indicat per l'usuari ha de ser accessible i tenir el format correcte.
+ * @post Es llegeixen les dades del fitxer i es mostren les línies llegides.
+ */
 void llegir_dades(Padro &padro) {
     cout << "********************" << endl;
     cout << "* 01: Llegir dades *" << endl;
@@ -19,6 +25,12 @@ void llegir_dades(Padro &padro) {
     cout << "Numero de linies: " << padro.llegirDades(path) << endl;
 }
 
+/**
+ * @brief Comprova si un any específic existeix en les dades del Padró.
+ * @param padro Referència constant a l'objecte Padro.
+ * @pre \c padro ha de contenir dades vàlides.
+ * @post Mostra si l'any introduït existeix al Padró.
+ */
 void existeixAny(const Padro &padro) {
     cout << "********************" << endl;
     cout << "* 02: Existeix any *" << endl;
@@ -33,6 +45,12 @@ void existeixAny(const Padro &padro) {
         cout << "Any inexistent" << endl;
 }
 
+/**
+ * @brief Mostra el nombre total d'habitants per cada any.
+ * @param padro Referència constant a l'objecte Padro.
+ * @pre \c padro ha de contenir dades vàlides.
+ * @post Es mostra el nombre d'habitants per any, així com el promig calculat.
+ */
 void obtenirNHabitants(const Padro &padro) {
     cout << "**********************************" << endl;
     cout << "* 03: Obtenir nombre d'habitants *" << endl;
@@ -51,6 +69,12 @@ void obtenirNHabitants(const Padro &padro) {
     cout << "PROMIG : " << fixed << setprecision(2) << promig / n << endl;
 }
 
+/**
+ * @brief Mostra el nombre d'habitants d'un any especificat.
+ * @param padro Referència constant a l'objecte Padro.
+ * @pre L'any indicat ha de ser existent a les dades del \c padro.
+ * @post Mostra el nombre d'habitants per districte d'un any determinat i el total.
+ */
 void nHabitantsUnAny(const Padro &padro) {
     cout << "*******************************************" << endl;
     cout << "* 04: Obtenir nombre d'habitants d'un any *" << endl;
@@ -73,6 +97,12 @@ void nHabitantsUnAny(const Padro &padro) {
     cout << "TOTAL : " << total << endl;
 }
 
+/**
+ * @brief Mostra el nombre d'habitants d'una secció específica dins un districte i any.
+ * @param padro Referència constant a l'objecte Padro.
+ * @pre L'any i districte han d'existir en les dades de \c padro.
+ * @post Mostra el nombre d'habitants per secció, així com el total del districte.
+ */
 void nHabitantsUnAnyUnDistricte(const Padro &padro) {
     cout << "*******************************************************" << endl;
     cout << "* 05: Obtenir nombre d'habitants d'un any i districte *" << endl;
@@ -109,6 +139,12 @@ void nHabitantsUnAnyUnDistricte(const Padro &padro) {
     cout << "TOTAL : " << totalHabitants << endl;
 }
 
+/**
+ * @brief Mostra un resum de les dades per nivell d'estudis.
+ * @param padro Referència constant a l'objecte Padro.
+ * @pre \c padro ha d'estar inicialitzat amb dades prèviament llegides.
+ * @post Mostra el resum dels nivells d'estudis per any.
+ */
 void mostrarResumEstudis(const Padro &padro) {
     cout << "*************************" << endl;
     cout << "* 06: Resum per estudis *" << endl;
@@ -140,6 +176,12 @@ void mostrarResumEstudis(const Padro &padro) {
     }
 }
 
+/**
+ * @brief Mostra el nombre d'estudis per un districte donat.
+ * @param padro Referència constant a l'objecte Padro.
+ * @pre \c padro ha d'estar inicialitzat amb dades prèviament llegides.
+ * @post Mostra el nombre d'estudis registrats per un districte especificat.
+ */
 void nEstudisDistricte(const Padro &padro) {
     cout << "**************************************" << endl;
     cout << "* 07: Nombre d'estudis per districte *" << endl;
@@ -156,6 +198,12 @@ void nEstudisDistricte(const Padro &padro) {
     }
 }
 
+/**
+ * @brief Mostra un resum del nivell d'estudis per districte i any.
+ * @param padro Referència constant a l'objecte Padro.
+ * @pre \c padro ha d'estar inicialitzat amb dades prèviament llegides.
+ * @post Es mostra el nivell d'estudis promig per cada districte i any.
+ */
 void resumNivellEstudis(const Padro &padro) {
     cout << "******************************" << endl;
     cout << "* 08: Resum nivell d'estudis *" << endl;
@@ -180,6 +228,12 @@ void resumNivellEstudis(const Padro &padro) {
     }
 }
 
+/**
+ * @brief Mostra un resum de les nacionalitats dels habitants.
+ * @param padro Referència constant a l'objecte Padro.
+ * @pre \c padro ha d'estar inicialitzat amb dades prèviament llegides.
+ * @post Es mostra un resum de nacionalitats amb el nombre d'habitants per any.
+ */
 void resumNacionalitats(const Padro &padro) {
     cout << "******************************" << endl;
     cout << "* 09: Resum de nacionalitats *" << endl;
@@ -196,7 +250,7 @@ void resumNacionalitats(const Padro &padro) {
         // Recorre cada nacionalitat d'un any
         while (it_Nacio != it_Any->second.end()) {
             cout << "       " << left << setw(30) << (it_Nacio->second.obtenirNom() + " (" + to_string(
-                                                   it_Nacio->second.obtenirId()) + ")");
+                                                          it_Nacio->second.obtenirId()) + ")");
             cout << right << ":" << setw(11) << it_Nacio->first << endl;
 
             it_Nacio++;
@@ -205,6 +259,12 @@ void resumNacionalitats(const Padro &padro) {
     }
 }
 
+/**
+ * @brief Mostra els moviments d'una comunitat específica en els districtes.
+ * @param padro Referència constant a l'objecte Padro.
+ * @pre \c padro ha d'estar inicialitzat amb dades prèviament llegides.
+ * @post Es mostra el districte que concentra més habitants d'una comunitat per any.
+ */
 void movimentsUnaComunitat(const Padro &padro) {
     cout << "*********************************" << endl;
     cout << "* 10: Moviments d'una comunitat *" << endl;
@@ -224,6 +284,12 @@ void movimentsUnaComunitat(const Padro &padro) {
     }
 }
 
+/**
+ * @brief Mostra un resum de les edats per districte i any.
+ * @param padro Referència constant a l'objecte Padro.
+ * @pre \c padro ha d'estar inicialitzat amb dades prèviament llegides.
+ * @post Es mostra l'edat promig per cada districte i any.
+ */
 void resumEdats(const Padro &padro) {
     cout << "*********************" << endl;
     cout << "* 11: Resum d'edats *" << endl;
@@ -248,6 +314,12 @@ void resumEdats(const Padro &padro) {
     }
 }
 
+/**
+ * @brief Mostra el districte més envellit per cada any.
+ * @param padro Referència constant a l'objecte Padro.
+ * @pre \c padro ha d'estar inicialitzat amb dades prèviament llegides.
+ * @post Es mostra el districte amb la major edat mitjana per any.
+ */
 void movimentsVells(const Padro &padro) {
     cout << "****************************" << endl;
     cout << "* 12: Moviments dels vells *" << endl;
@@ -266,6 +338,12 @@ void movimentsVells(const Padro &padro) {
     }
 }
 
+/**
+ * @brief Mostra el districte amb el major increment de població jove.
+ * @param padro Referència constant a l'objecte Padro.
+ * @pre \c padro ha d'estar inicialitzat amb dades prèviament llegides.
+ * @post Mostra el districte amb més increment de joves entre dos anys especificats.
+ */
 void mesJoves(const Padro &padro) {
     cout << "******************" << endl;
     cout << "* 13: Més joves *" << endl;
@@ -278,6 +356,12 @@ void mesJoves(const Padro &padro) {
     cout << left << setw(29) << mesJoves.first << right << mesJoves.second << endl;
 }
 
+/**
+ * @brief Mostra els estudis de persones d'una edat, any, districte i nacionalitat específics.
+ * @param padro Referència constant a l'objecte Padro.
+ * @pre \c padro ha d'estar inicialitzat amb dades prèviament llegides.
+ * @post Mostra la llista d'estudis per l'any, districte, edat i codi de nacionalitat proporcionats.
+ */
 void estudisAnyDistricteEdatNacionalitat(const Padro &padro) {
     cout << "********************************************" << endl;
     cout << "* 14: Estudis any,districte, edat i nació *" << endl;
@@ -300,6 +384,12 @@ void estudisAnyDistricteEdatNacionalitat(const Padro &padro) {
     }
 }
 
+/**
+ * @brief Punt d'entrada principal del programa.
+ * @return Retorna 0 quan s'executa correctament.
+ * @pre No té precondicions.
+ * @post Permet a l'usuari triar diverses operacions sobre l'objecte Padró.
+ */
 int main() {
     Padro padro;
 

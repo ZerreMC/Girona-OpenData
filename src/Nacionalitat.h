@@ -9,10 +9,21 @@
 
 using namespace std;
 
+/**
+ * @class Nacionalitat
+ * @brief Representa una nacionalitat amb un codi identificador i un nom.
+ */
 class Nacionalitat {
 public:
     Nacionalitat() = default;
 
+    /**
+     * @brief Constructor que inicialitza una nacionalitat amb un codi especificat.
+     *
+     * @param id Codi identificador de la nacionalitat.
+     * @pre  --
+     * @post El codi de la nacionalitat es guarda a l'atribut corresponent i el nom queda buit.
+     */
     Nacionalitat(int id);
 
     /**
@@ -53,8 +64,24 @@ public:
      */
     bool operator==(const Nacionalitat &nacio) const;
 
+    /**
+     * @brief Sobrecàrrega de l'operador major que per comparar dues nacionalitats.
+     *
+     * @param nacio Objecte Nacionalitat amb el qual es vol comparar.
+     * @return `true` si el codi de l'objecte actual és més gran que el de \p nacio, `false` en cas contrari.
+     * @pre  --
+     * @post Retorna `true` si el codi de l'objecte actual és major, `false` en cas contrari.
+     */
     bool operator>(const Nacionalitat &nacio) const;
 
+    /**
+     * @brief Sobrecàrrega de l'operador menor que per comparar dues nacionalitats.
+     *
+     * @param nacio Objecte Nacionalitat amb el qual es vol comparar.
+     * @return `true` si el codi de l'objecte actual és més petit que el de \p nacio, `false` en cas contrari.
+     * @pre  --
+     * @post Retorna `true` si el codi de l'objecte actual és menor, `false` en cas contrari.
+     */
     bool operator<(const Nacionalitat &nacio) const;
 
 private:
@@ -67,6 +94,13 @@ private:
 namespace std {
     template<>
     struct hash<Nacionalitat> {
+        /**
+         * @brief Calcula un hash per a un objecte Nacionalitat.
+         * @param n Objecte Nacionalitat per al qual es vol calcular el hash.
+         * @return Enter que representa el valor del hash.
+         * @pre  --
+         * @post Retorna un hash basat en el codi identificador de la nacionalitat.
+         */
         size_t operator()(const Nacionalitat &n) const {
             return std::hash<int>()(n.obtenirId());
         }
