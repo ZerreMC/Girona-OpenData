@@ -261,7 +261,7 @@ void movimentsVells(const Padro &padro) {
         int any = it_any->first;
         const string &districte = it_any->second;
 
-        cout << any << ": " << setw(30) << left << districte << endl;
+        cout << any << "    " << districte << endl;
         it_any++;
     }
 }
