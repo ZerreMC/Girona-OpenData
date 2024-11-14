@@ -195,8 +195,8 @@ void resumNacionalitats(const Padro &padro) {
         multimap<long, Nacionalitat, greater<long> >::const_iterator it_Nacio = it_Any->second.begin();
         // Recorre cada nacionalitat d'un any
         while (it_Nacio != it_Any->second.end()) {
-            cout << "\t   " << left << setw(30) << (it_Nacio->second.obtenirNom() + " (" + to_string(
-                                                        it_Nacio->second.obtenirId()) + ")");
+            cout << "       " << left << setw(30) << (it_Nacio->second.obtenirNom() + " (" + to_string(
+                                                   it_Nacio->second.obtenirId()) + ")");
             cout << right << ":" << setw(11) << it_Nacio->first << endl;
 
             it_Nacio++;
@@ -230,19 +230,19 @@ void resumEdats(const Padro &padro) {
     cout << "*********************" << endl;
 
     ResumEdats resum = padro.resumEdat();
-    map<int, set<pair<double,string>>>::const_iterator it_any = resum.begin();
+    map<int, set<pair<double, string> > >::const_iterator it_any = resum.begin();
 
     while (it_any != resum.end()) {
         int any = it_any->first;
         cout << any << ": " << endl;
 
         // Recorre el set de parelles <nom del districte, edat>
-        for (const auto &pair : it_any->second) {
+        for (const auto &pair: it_any->second) {
             const string &nomDistricte = pair.second;
             double promigEdat = pair.first;
 
             cout << "       " << setw(32) << left << nomDistricte
-                 << "Promig Edat: " << setw(10) << right << fixed << setprecision(2) << promigEdat << endl;
+                    << "Promig Edat: " << setw(10) << right << fixed << setprecision(2) << promigEdat << endl;
         }
         it_any++;
     }
