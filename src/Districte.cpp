@@ -4,16 +4,18 @@
 
 #include "Districte.h"
 
+#include "Padro.h"
+
 void Districte::afegir(int seccio, int codiNivellEstudis, const string &nivellEstudis, int anyNaixement,
                        int codiNacionalitat,
                        const string &nomNacionalitat) {
-    Estudi estudi(codiNivellEstudis, nivellEstudis);
-    Nacionalitat nacionalitat(codiNacionalitat, nomNacionalitat);
-    Persona persona(estudi, anyNaixement, nacionalitat);
-
+    Persona persona(codiNivellEstudis, nivellEstudis, anyNaixement, codiNacionalitat, nomNacionalitat);
     _Persones.push_back(persona);
+
+    Estudi estudi(codiNivellEstudis, nivellEstudis);
     _Estudis.insert(estudi);
-    _Nacionalitats.insert(nacionalitat);
+
+    Nacionalitat nacionalitat(codiNacionalitat, nomNacionalitat);
 
     _habitantsPerSeccio[seccio]++;
     _habitantsPerNacio[nacionalitat]++;
@@ -34,9 +36,9 @@ double Districte::obtenirEdatMitjana(int any) const {
     return _Persones.empty() ? 0.0 : sumEdat / _Persones.size();
 }
 
-set<string, greater<string> > Districte::resumEstudis() const {
-    set<string, greater<string> > estudis;
-    set<Estudi, greater<Estudi> >::const_iterator it = _Estudis.begin();
+set<string, greater<string>> Districte::resumEstudis() const {
+    set<string, greater<string>> estudis;
+    set<Estudi, greater<Estudi>>::const_iterator it = _Estudis.begin();
 
     while (it != _Estudis.end()) {
         estudis.insert(it->obtenirNom());
@@ -44,18 +46,6 @@ set<string, greater<string> > Districte::resumEstudis() const {
     }
 
     return estudis;
-}
-
-set<string, greater<string> > Districte::resumNacionalitats() const {
-    set<string, greater<string> > nacionalitats;
-    set<Nacionalitat, greater<Nacionalitat> >::const_iterator it = _Nacionalitats.begin();
-
-    while (it != _Nacionalitats.end()) {
-        nacionalitats.insert(it->obtenirNom());
-        it++;
-    }
-
-    return nacionalitats;
 }
 
 long Districte::comptaEdatNacionalitat(int anyNaixement, int codiNacionalitat) const {
@@ -84,17 +74,18 @@ int Districte::obtenirNivellEstudis() const {
 
 long Districte::obtenirTotalNivellEstudis() const {
     int total = 0;
-    for (list<Persona>::const_iterator it = _Persones.begin(); it != _Persones.end(); it++) {
-        total += it->obtenirCodiEstudi();
+    list<Persona>::const_iterator it = _Persones.begin();
+    while (it != _Persones.end()) {
+        total += it->obtenirCodiNivellEstudis();
+        it++;
     }
     return total;
 }
 
-
-unordered_map<Nacionalitat, long> Districte::obtenirHabitantsPerNacio() const {
+const unordered_map<Nacionalitat, long>& Districte:: obtenirHabitantsPerNacio() const{
     return _habitantsPerNacio;
 }
 
-const list<Persona> Districte::obtenirPersones() const {
+const list<Persona>& Districte::obtenirPersones() const {
     return _Persones;
 }

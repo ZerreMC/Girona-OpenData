@@ -143,7 +143,7 @@ ResumNacionalitats Padro::resumNacionalitats() const {
         unordered_map<Nacionalitat, long> nacionalitatsPerAny;
 
         // Recorre cada districte en l'any actual
-        for (int i = 1; i < it_any->second.size(); ++i) {
+        for (int i = 1; i < it_any->second.size(); i++) {
             const unordered_map<Nacionalitat, long> &habitantsNacio = it_any->second[i].obtenirHabitantsPerNacio();
 
             // Acumula la quantitat d'habitants per nacionalitat
@@ -171,7 +171,7 @@ ResumNacionalitats Padro::resumNacionalitats() const {
 map<int, string> Padro::movimentsComunitat(int codiNacionalitat) const {
     map<int, string> resultat;
 
-    map<int, vector<Districte> >::const_iterator it_any = _districtes.begin();
+    map<int, vector<Districte>>::const_iterator it_any = _districtes.begin();
     // Recorre cada any
     while (it_any != _districtes.end()) {
         int any = it_any->first;
@@ -184,8 +184,8 @@ map<int, string> Padro::movimentsComunitat(int codiNacionalitat) const {
 
             // Verifica si el districte té habitants de la nacionalitat sol·licitada
             const unordered_map<Nacionalitat, long> habitantsNacio = districte.obtenirHabitantsPerNacio();
-            const unordered_map<Nacionalitat, long>::const_iterator it_nacionalitat = habitantsNacio.find(
-                codiNacionalitat);
+            Nacionalitat nacionalitat(codiNacionalitat);
+            const unordered_map<Nacionalitat, long>::const_iterator it_nacionalitat = habitantsNacio.find(nacionalitat);
 
             // Si la nacionalitat existeix en el districte, es verifica la quantitat d'habitants
             if (it_nacionalitat != habitantsNacio.end()) {

@@ -3,25 +3,27 @@
 // Sessio 2 Practica p1
 #include "Persona.h"
 
-Persona::Persona(Estudi estudi, int anyNaixement, Nacionalitat nacionalitat) {
-    _estudi = estudi;
+Persona::Persona(int codiNivellEstudis, const string &nivellEstudis, int anyNaixement, int codiPaisNaixement,
+                 const string &paisNaixement) {
+    _codiNivellEstudis = codiNivellEstudis;
+    _nivellEstudis = nivellEstudis;
     _anyNaixement = anyNaixement;
-    _nacionalitat = nacionalitat;
+    _codiPaisNaixement = codiPaisNaixement;
+    _paisNaixement = paisNaixement;
 }
-
 
 int Persona::obtenirAnyNaixement() const {
     return _anyNaixement;
 }
 
-string Persona::obtenirNivellEstudis() const {
-    return _estudi.obtenirNom();
+int Persona::obtenirCodiNivellEstudis() const {
+    return _codiNivellEstudis;
 }
 
-int Persona::obtenirCodiEstudi() const {
-        return _estudi.obtenirId();
+string Persona::obtenirNivellEstudis() const {
+    return _nivellEstudis;
 }
 
 int Persona::obtenirCodiPaisNaixement() const {
-    return _nacionalitat.obtenirId();
+    return _codiPaisNaixement;
 }
