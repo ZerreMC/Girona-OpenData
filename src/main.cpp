@@ -196,7 +196,7 @@ void resumNacionalitats(const Padro &padro) {
         multimap<long, Nacionalitat, greater<long> >::const_iterator it_Nacio = it_Any->second.begin();
         // Recorre cada nacionalitat d'un any
         while (it_Nacio != it_Any->second.end()) {
-            cout << "\t" << left << setw(30) << (it_Nacio->second.obtenirNom() + " (" + to_string(
+            cout << "\t   " << left << setw(30) << (it_Nacio->second.obtenirNom() + " (" + to_string(
                                                         it_Nacio->second.obtenirId()) + ")");
             cout << right << ":" << setw(11) << it_Nacio->first << endl;
 
