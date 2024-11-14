@@ -179,7 +179,6 @@ private:
     ///< Mapa que manté el nombre total d'habitants per cada any, permetent accés ràpid al recompte anual.
 
     ResumEdats _edats;
-    ResumNacionalitats _nacionalitats;
 
     /**
      * @brief Converteix una cadena de text a un enter si és possible.
