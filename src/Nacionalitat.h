@@ -67,7 +67,7 @@ private:
 namespace std {
     template<>
     struct hash<Nacionalitat> {
-        size_t operator()(const Nacionalitat &n) const noexcept {
+        size_t operator()(const Nacionalitat &n) const {
             return std::hash<int>()(n.obtenirId());
         }
     };

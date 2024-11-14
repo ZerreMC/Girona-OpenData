@@ -38,11 +38,9 @@ double Districte::obtenirEdatMitjana(int any) const {
 
 set<string, greater<string>> Districte::resumEstudis() const {
     set<string, greater<string>> estudis;
-    set<Estudi, greater<Estudi>>::const_iterator it = _Estudis.begin();
 
-    while (it != _Estudis.end()) {
-        estudis.insert(it->obtenirNom());
-        it++;
+    for (set<Estudi, greater<Estudi>>::const_iterator estudi = _Estudis.begin(); estudi != _Estudis.end(); estudi++) {
+        estudis.insert(estudi->obtenirNom());
     }
 
     return estudis;
@@ -64,8 +62,8 @@ long Districte::comptaEdatNacionalitat(int anyNaixement, int codiNacionalitat) c
     return total;
 }
 
-map<int, long> Districte::obtenirHabitantsPerSeccio() const {
-    return map<int, long>(_habitantsPerSeccio.begin(), _habitantsPerSeccio.end());
+map<int, long> Districte::obtenirHabitantsPerSeccio() const{
+    return _habitantsPerSeccio;
 }
 
 int Districte::obtenirNivellEstudis() const {
@@ -82,10 +80,10 @@ long Districte::obtenirTotalNivellEstudis() const {
     return total;
 }
 
-const unordered_map<Nacionalitat, long>& Districte:: obtenirHabitantsPerNacio() const{
+unordered_map<Nacionalitat, long> Districte:: obtenirHabitantsPerNacio() const{
     return _habitantsPerNacio;
 }
 
-const list<Persona>& Districte::obtenirPersones() const {
+list<Persona> Districte::obtenirPersones() const {
     return _Persones;
 }

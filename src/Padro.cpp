@@ -70,7 +70,19 @@ map<int, long> Padro::obtenirNumHabitantsPerSeccio(int any, int districte) const
 }
 
 ResumEstudis Padro::resumEstudis() const {
-    return _estudis;
+    ResumEstudis resumEstudis;
+    map<int, vector<Districte>>::const_iterator itAny = _districtes.begin();
+    while (itAny != _districtes.end()) {
+        const vector<Districte> &districtesAny = itAny->second;
+        for (int i = 1; i < districtesAny.size(); i++) {
+            set<string, greater<string>> estudisDistricte = districtesAny[i].resumEstudis();
+            for (const auto& estudi : estudisDistricte) {
+                resumEstudis[itAny->first].insert(estudi);
+            }
+        }
+        itAny++;
+    }
+    return resumEstudis;
 }
 
 map<int, int> Padro::nombreEstudisDistricte(int districte) const {
@@ -415,9 +427,6 @@ void Padro::afegirDades(int any, int districte, int seccio, int codiNivellEstudi
     }
     // Actualiza _habitantsPerAny
     _habitantsPerAny[any]++;
-
-    // Actualiza _estudis
-    _estudis[any].insert(nivellEstudis);
 
     // Calcula edat i actualiza _edats
     int edat = any - anyNaixement;

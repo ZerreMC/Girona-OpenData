@@ -88,15 +88,15 @@ public:
 
     long obtenirTotalNivellEstudis() const;
 
-    const unordered_map<Nacionalitat, long>& obtenirHabitantsPerNacio() const;
+    unordered_map<Nacionalitat, long> obtenirHabitantsPerNacio() const;
 
-    const list<Persona>& obtenirPersones() const;
+    list<Persona> obtenirPersones() const;
 
 private:
     list<Persona> _Persones; ///< Conjunt de persones que resideixen al districte.
-    set<Estudi, greater<Estudi> > _Estudis; ///< Conjunt d'estudis dels habitants del districte per evitar duplicats.
+    set<Estudi, greater<Estudi>> _Estudis; ///< Conjunt d'estudis dels habitants del districte per evitar duplicats.
 
-    unordered_map<int, long> _habitantsPerSeccio;
+    map<int, long> _habitantsPerSeccio;
     unordered_map<Nacionalitat, long> _habitantsPerNacio; ///< Estructura de dades que conta les persones que
 };
 

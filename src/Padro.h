@@ -178,7 +178,6 @@ private:
     map<int, long> _habitantsPerAny;
     ///< Mapa que manté el nombre total d'habitants per cada any, permetent accés ràpid al recompte anual.
 
-    ResumEstudis _estudis;
     ResumEdats _edats;
     ResumNacionalitats _nacionalitats;
 
