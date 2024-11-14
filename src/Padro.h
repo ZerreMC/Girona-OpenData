@@ -18,7 +18,7 @@
 using namespace std;
 
 typedef map<int, set<string, greater<string>>> ResumEstudis;
-typedef map<int, vector<double>> ResumEdats;
+typedef map<int, set<pair<double, string>>> ResumEdats;
 typedef map<int, vector<pair<char, double>>> ResumNivellEstudis;
 typedef map<int, multimap<long, Nacionalitat,greater<long>>> ResumNacionalitats;
 
@@ -177,8 +177,6 @@ private:
 
     map<int, long> _habitantsPerAny;
     ///< Mapa que manté el nombre total d'habitants per cada any, permetent accés ràpid al recompte anual.
-
-    ResumEdats _edats;
 
     /**
      * @brief Converteix una cadena de text a un enter si és possible.

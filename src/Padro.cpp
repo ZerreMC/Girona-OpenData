@@ -225,32 +225,17 @@ map<int, string> Padro::movimentsComunitat(int codiNacionalitat) const {
 ResumEdats Padro::resumEdat() const {
     ResumEdats resultat;
 
-    map<int, vector<Districte> >::const_iterator it_any = _districtes.begin();
+    map<int, vector<Districte>>::const_iterator it_any = _districtes.begin();
     while (it_any != _districtes.end()) {
         int any = it_any->first;
-        vector<pair<double, int> > edatsPromig;
+        set<pair<double, string>> edatsOrdenades;
 
-        // Recorre cada districte en l'any actual
         for (int i = 1; i < it_any->second.size(); i++) {
-            double promigEdat = it_any->second[i].obtenirEdatMitjana(it_any->first);
-            edatsPromig.push_back(make_pair(promigEdat, i));
+            double promigEdat = it_any->second[i].obtenirEdatMitjana(any);
+            edatsOrdenades.insert(make_pair(promigEdat, DISTRICTES[i]));
         }
 
-        // Ordena les mitjanes d'edat en ordre ascendent
-        sort(edatsPromig.begin(), edatsPromig.end());
-
-        // Crea un vector de mitjanes d'edat ordenades per a l'any
-        vector<double> edatsOrdenades;
-
-        vector<pair<double, int> >::const_iterator it = edatsPromig.begin();
-        while (it != edatsPromig.end()) {
-            edatsOrdenades.push_back(it->first);
-            it++;
-        }
-
-        // Emmagatzema el vector d'edats ordenades al mapa de resultats
         resultat[any] = edatsOrdenades;
-
         it_any++;
     }
     return resultat;
@@ -258,18 +243,15 @@ ResumEdats Padro::resumEdat() const {
 
 map<int, string> Padro::movimentVells() const {
     map<int, string> resultat;
-
     ResumEdats resum = resumEdat();
-    map<int, vector<double> >::const_iterator it_any = resum.begin();
-    while (it_any != resum.end()) {
-        int any = it_any->first;
-        // L'índex del districte més envellit és l'últim en el vector ordenat
-        int districteIndex = it_any->second.size() - 1;
 
-        resultat[any] = DISTRICTES[districteIndex + 1];
-
-        it_any++;
+    for (const auto& any : resum) {
+        if (!any.second.empty()) {
+            auto it_vell = prev(any.second.end());
+            resultat[any.first] = it_vell->second;
+        }
     }
+
     return resultat;
 }
 
@@ -427,12 +409,4 @@ void Padro::afegirDades(int any, int districte, int seccio, int codiNivellEstudi
     }
     // Actualiza _habitantsPerAny
     _habitantsPerAny[any]++;
-
-    // Calcula edat i actualiza _edats
-    int edat = any - anyNaixement;
-
-    if (_edats.find(any) == _edats.end()) {
-        _edats[any].resize(MIDA);
-    }
-    _edats[any][districte] += edat;
 }

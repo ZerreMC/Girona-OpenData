@@ -205,7 +205,6 @@ void resumNacionalitats(const Padro &padro) {
     }
 }
 
-
 void movimentsUnaComunitat(const Padro &padro) {
     cout << "*********************************" << endl;
     cout << "* 10: Moviments d'una comunitat *" << endl;
@@ -225,31 +224,30 @@ void movimentsUnaComunitat(const Padro &padro) {
     }
 }
 
-// Falta cambiar els noms dels districtes
 void resumEdats(const Padro &padro) {
     cout << "*********************" << endl;
     cout << "* 11: Resum d'edats *" << endl;
     cout << "*********************" << endl;
 
     ResumEdats resum = padro.resumEdat();
-    map<int, vector<double> >::const_iterator it_any = resum.begin();
+    map<int, set<pair<double,string>>>::const_iterator it_any = resum.begin();
 
     while (it_any != resum.end()) {
         int any = it_any->first;
         cout << any << ": " << endl;
 
-        const vector<double> &edatsPromig = it_any->second;
+        // Recorre el set de parelles <nom del districte, edat>
+        for (const auto &pair : it_any->second) {
+            const string &nomDistricte = pair.second;
+            double promigEdat = pair.first;
 
-        for (int i = 0; i < edatsPromig.size(); ++i) {
-            string nomDistricte = DISTRICTES[i + 1];
             cout << "       " << setw(32) << left << nomDistricte
-                    << "Promig Edat: " << setw(10) << right << fixed << setprecision(2) << edatsPromig[i] << endl;
+                 << "Promig Edat: " << setw(10) << right << fixed << setprecision(2) << promigEdat << endl;
         }
         it_any++;
     }
 }
 
-// Mostra malament els noms
 void movimentsVells(const Padro &padro) {
     cout << "****************************" << endl;
     cout << "* 12: Moviments dels vells *" << endl;
@@ -263,7 +261,7 @@ void movimentsVells(const Padro &padro) {
         int any = it_any->first;
         const string &districte = it_any->second;
 
-        cout << any << setw(30) << districte << endl;
+        cout << any << ": " << setw(30) << left << districte << endl;
         it_any++;
     }
 }
