@@ -2,6 +2,22 @@
 // Usuari u1980984
 // Sessio 2 Practica p1
 
+/**
+ * @mainpage Juguem amb Ce Essa Ves? Oh, my God!!!
+ * @author Sebastian J. Gutierrez Llorca
+ * @version 1.0
+ * @date 2024/11/15
+ *
+ * S'ha aprofitat el codi implementat de les sessiosn anterior de laboratori per
+ * d'EDA realitzar aquest programa
+ *
+ * S'han documentat les classes utilitzades (explicant per què es fan servir i
+ * descrivint breument els seus atributs), i s'han posat les pre- i
+ * postcondicions de les accions i funcions del \c main.cpp i els mètodes
+ * de totes les classes \c Padro \c Districte \c Eines \c Nacionalitat \c Estudi
+ * \c Persona.
+ */
+
 #include <fstream>
 #include <iomanip>
 #include <iostream>
@@ -37,14 +53,26 @@ int llegir_dades(Padro &padro) {
 void obtenirEntradaValida(int &entrada) {
     bool valida = false;
     while (!valida) {
-        cin >> entrada;
-        // Comprova si l'entrada és vàlida o és un número negatiu
-        if (cin.fail() or entrada < 0) {
+        try {
+            cin >> entrada;
+
+            if (cin.eof()) {
+                cout << "Final de l'arxiu detectat. Sortint del programa." << endl;
+                throw runtime_error("Fi de l'arxiu.");
+            }
+
+            if (cin.fail() or entrada < 0) {
+                throw invalid_argument("L'entrada no és vàlida, ha de ser un nombre enter positiu.");
+            } else {
+                valida = true; // L'entrada és vàlida
+            }
+        } catch (const invalid_argument &e) {
             cin.clear(); // Neteja l'estat d'error de cin
             cin.ignore(numeric_limits<streamsize>::max(), '\n'); // Descartar l'entrada incorrecta del buffer
-            cout << "L'entrada no és vàlida, ha de ser un nombre enter positiu." << endl;
-        } else {
-            valida = true; // L'entrada és vàlida
+            cerr << e.what() << endl;
+        } catch (const runtime_error &e) {
+            cerr << e.what() << endl;
+            exit(0); // Finaliza el programa si se alcanza el final del archivo
         }
     }
 }
@@ -378,7 +406,7 @@ void mesJoves(const Padro &padro) {
     cout << "Any Inicial: " << anyInicial << "  AnyFinal:" << anyFinal << endl;
 
     pair<string, long> mesJoves = padro.mesJoves(anyInicial, anyFinal);
-    cout << left << setw(29) << mesJoves.first << right << mesJoves.second << endl;
+    cout << mesJoves.first << "     " << mesJoves.second << endl;
 }
 
 /**
@@ -425,29 +453,42 @@ int main() {
         cin >> n;
         if (n == 1) {
             int numLinies = llegir_dades(padro);
-            dadesLlegides = (numLinies > 0);// Comprova si s'han llegit dades
+            dadesLlegides = (numLinies > 0); // Comprova si s'han llegit dades
         } else if (n == 0) {
             // Opció de sortida, no mostrar el missatge d'error
             break;
         } else if (dadesLlegides) {
             switch (n) {
-                case 2: existeixAny(padro); break;
-                case 3: obtenirNHabitants(padro); break;
-                case 4: nHabitantsUnAny(padro); break;
-                case 5: nHabitantsUnAnyUnDistricte(padro); break;
-                case 6: mostrarResumEstudis(padro); break;
-                case 7: nEstudisDistricte(padro); break;
-                case 8: resumNivellEstudis(padro); break;
-                case 9: resumNacionalitats(padro); break;
-                case 10: movimentsUnaComunitat(padro); break;
-                case 11: resumEdats(padro); break;
-                case 12: movimentsVells(padro); break;
-                case 13: mesJoves(padro); break;
-                case 14: estudisAnyDistricteEdatNacionalitat(padro); break;
+                case 2: existeixAny(padro);
+                    break;
+                case 3: obtenirNHabitants(padro);
+                    break;
+                case 4: nHabitantsUnAny(padro);
+                    break;
+                case 5: nHabitantsUnAnyUnDistricte(padro);
+                    break;
+                case 6: mostrarResumEstudis(padro);
+                    break;
+                case 7: nEstudisDistricte(padro);
+                    break;
+                case 8: resumNivellEstudis(padro);
+                    break;
+                case 9: resumNacionalitats(padro);
+                    break;
+                case 10: movimentsUnaComunitat(padro);
+                    break;
+                case 11: resumEdats(padro);
+                    break;
+                case 12: movimentsVells(padro);
+                    break;
+                case 13: mesJoves(padro);
+                    break;
+                case 14: estudisAnyDistricteEdatNacionalitat(padro);
+                    break;
                 default: break;
             }
         } else {
-             cout << "Primer has de llegir dades des d'un fitxer amb l'opció 1." << endl;
+            cout << "Primer has de llegir dades des d'un fitxer amb l'opció 1." << endl;
         }
     } while (n != 0);
 
